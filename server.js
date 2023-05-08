@@ -28,7 +28,9 @@ app.set("view engine", "ejs");
 
 //app.use("/", routes);
 app.get("/", (req, res) => {
-  res.send("test");
+  //get all teams
+ const teams = await Team.find();
+  res.send(teams);
 });
 
 //const MONGODB_URI = "mongodb://127.0.0.1/wrecking";
