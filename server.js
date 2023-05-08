@@ -2,6 +2,7 @@ import express, { json } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import Team from "./models/team.js";
 
 dotenv.config();
 
@@ -27,9 +28,9 @@ app.set("view engine", "ejs");
 // });
 
 //app.use("/", routes);
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   //get all teams
- const teams = await Team.find();
+  const teams = await Team.find();
   res.send(teams);
 });
 
