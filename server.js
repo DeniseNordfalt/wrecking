@@ -33,10 +33,10 @@ app.get("/", (req, res) => {
 
 //const MONGODB_URI = "mongodb://127.0.0.1/wrecking";
 
-//const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 app.listen(PORT, () => {
-  //setupMongoDb(MONGODB_URI);
+  setupMongoDb(MONGODB_URI);
   //seed();
   //const gameRound = new GameRound();
   //gameRound.start();
