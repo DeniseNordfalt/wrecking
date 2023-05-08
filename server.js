@@ -26,20 +26,23 @@ app.set("view engine", "ejs");
 //   res.send("server is running");
 // });
 
-app.use("/", routes);
+//app.use("/", routes);
+app.get("/", (req, res) => {
+  res.send("test");
+});
 
 //const MONGODB_URI = "mongodb://127.0.0.1/wrecking";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+//const MONGODB_URI = process.env.MONGODB_URI;
 
 app.listen(PORT, () => {
-  setupMongoDb(MONGODB_URI);
-  seed();
+  //setupMongoDb(MONGODB_URI);
+  //seed();
   //const gameRound = new GameRound();
   //gameRound.start();
   //gameRound.watch();
-  playGameRound();
-  watchGameRound();
+  //playGameRound();
+  //watchGameRound();
 
   console.log(`Started Express at port ${PORT}`);
 });
