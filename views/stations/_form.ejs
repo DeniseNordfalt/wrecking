@@ -1,0 +1,39 @@
+ <%- const station = locals.station; const teams = locals.teams; const errors = locals.errors %> 
+
+<form method="POST" action="<%= '/stations/' + encodeURIComponent(station._id) %>">
+  <%- if (errors && errors.length) { %>
+    <div id="error_explanation">
+      <h2><%= ` ${errors.length} ${pluralize(errors.length, "error")} prohibited this station from being saved:` %></h2>
+      <ul>
+      <% errors.forEach((error) => { %>
+        <li><%= error %></li>
+      <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="field">
+    <label for="location">Location</label><br>
+    <input type="text" name="location" value="<%= station.location %>" />
+  </div>
+  <div class="field">
+    <label for="team_id">Team</label><br>
+    <select name="team_id">
+      <option value="">Unclaimed</option>
+      <% teams.forEach((team) => { %>
+        <option value="<%= team._id %>" <%= station.team_id == team._id ? 'selected' : '' %>><%= team.name %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="field">
+    <label for="boost">Boost</label><br>
+    <input type="text" name="boost" value="<%= station.boost %>" />
+  </div>
+  <div class="field">
+    <label for="reward">Calibration reward</label><br>
+    <input type="text" name="reward" value="<%= station.reward %>" />
+  </div>
+  <div class="actions">
+    <button type="submit">Save</button>
+  </div>
+</form>

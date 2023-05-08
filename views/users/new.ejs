@@ -1,0 +1,80 @@
+	<%- include('../layouts/index')  %>
+
+  <h2>Create user</h2>
+
+  <form method="POST">
+    <label for="name">Name:</label>
+    <input type="text" name="name" value="<%= user.name %>" />
+    <br />
+    <label for="email">Email:</label>
+    <input type="email" name="email" value="<%= user.email %>" />
+    <br />
+    <label for="password">Password:</label>
+    <input
+      type="password"
+      id="password_digest"
+      name="password_digest"
+      value="<%- user.password_digest %>"
+    />
+    <br />
+    <input type="submit" value="Create User" />
+  </form>
+
+  <style>
+    @import url("https://fonts.cdnfonts.com/css/chinese-rocks");
+    * {
+      box-sizing: border-box;
+      font-family: "Montserrat", arial;
+      background-color: #211310;
+      color: #ff7200;
+    }
+
+    form {
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 400px;
+    }
+
+    label {
+      font-family: "Chinese Rocks Rg", sans-serif;
+    }
+
+    label,
+    input {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ccc;
+      background-color: F0f0f0;
+      color: #211310;
+    }
+
+    input[type="submit"] {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: white;
+      font-family: "Chinese Rocks Rg", sans-serif;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #f0f0f0;
+    }
+
+    h2 {
+      padding: 20px;
+      margin: 0 auto;
+      max-width: 400px;
+      text-align: left;
+      font-family: "Chinese Rocks Rg", sans-serif;
+      color: #ff7200;
+    }
+  </style>
+</p%>

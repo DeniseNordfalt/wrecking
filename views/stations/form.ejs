@@ -1,0 +1,52 @@
+
+<% if (station.id) { %>
+<h1><%= station.location %></h1>
+
+<form action="/stations/<%= station.id %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+
+<label for="location">Location:</label>
+<input type="text" name="location" value="<%= station.location %>">
+
+<label for="boost">Boost:</label>
+<input type="text" name="boost" value="<%= station.boost %>">
+
+<label for="reward">Calibration reward:</label>
+<input type="text" name="reward" value="<%= station.reward %>">
+
+<label for="team_id">Team:</label>
+<select name="team_id">
+  <option value="">Unclaimed</option>
+</select>
+
+<% } else { %>
+  <h1>New station</h1>
+
+<label for="location">Location:</label>
+<input type="text" name="location" value="<%= station.location %>">
+
+<label for="boost">Boost:</label>
+
+<input type="text" name="boost" value="<%= station.boost %>">
+
+<label for="reward">Calibration reward:</label>
+<input type="text" name="reward" value="<%= station.reward %>">
+
+<label for="team_id">Team:</label>
+<select name="team_id">
+  <option value="">Unclaimed</option>
+
+</select>
+
+<% } %>
+
+<% if (station.id) { %>
+  <button type="submit">Update</button>
+<% } else { %>
+    <button type="submit">Create</button>
+<% } %>
+
+</form>
+
+
+

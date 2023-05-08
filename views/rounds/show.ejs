@@ -1,0 +1,22 @@
+<p>
+  <strong>Name:</strong>
+  <%= @round.name %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @round.active %>
+</p>
+
+<p>
+  <strong>Endtime:</strong>
+  <%= @round.endtime %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @round.score %>
+</p>
+
+<a href="<%= edit_round_path(@round) %>">Edit</a> |
+<a href="<%= rounds_path %>">Back</a>

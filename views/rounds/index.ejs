@@ -1,0 +1,68 @@
+<h1>Listing Rounds</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Active</th>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Remaining</th>
+      <th>Score</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% rounds.forEach(function(round) { %>
+    <tr>
+      <td><%= round.name %></td>
+      <td><%= round.active %></td>
+      <td><%= round.starttime %></td>
+      <td><%= round.endtime %></td>
+      <td><%= round.remaining if round.active %></td>
+      <td><%= round.score %></td>
+      <td><a href="/rounds/<%= round.id %>">Show</a></td>
+      <td><a href="/rounds/<%= round.id %>/edit">Edit</a></td>
+      <td>
+        <form
+          action="/rounds/<%= round.id %>"
+          method="POST"
+          onsubmit="return confirm('Are you sure?')"
+        >
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit">Destroy</button>
+        </form>
+      </td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
+
+<br />
+
+<form action="/rounds" method="POST">
+  <label for="round_starttime">Start time</label><br />
+  <input type="date" id="round_starttime" name="round[starttime]" /><br />
+  <input
+    type="datetime-local"
+    id="round_starttime_time"
+    name="round[starttime_time]"
+    step="300"
+    value="<%= new Date().toISOString().slice(0, -8) + '00:00' %>"
+  /><br />
+  <label for="round_length">Length</label>
+  <input type="text" id="round_length" name="round[length]" /><br />
+  <label for="round_stations">Active stations:</label><br />
+  <% stations.forEach(function(station, index) { %> <%= station.location %>
+  <input
+    type="checkbox"
+    name="round[stations][<%= station.id %>]"
+    value="active"
+    checked
+  /><br />
+  <% }); %><br />
+  <button type="submit">Submit</button>
+</form>
+
+<a href="/rounds/new">New Round</a>

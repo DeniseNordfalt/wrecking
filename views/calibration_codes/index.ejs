@@ -1,0 +1,40 @@
+<p>
+  <% if (true) { %> if active???
+  <a href="<%= '/calibration_codes' %>">Visa alla</a>
+  <% } else { %>
+  <a href="<%= '/active_calibration_codes' %>">Visa aktiva</a>
+  <% } -%>
+  <a href="<%= '/calibration_codes/top_list' %>">Toplista</a>
+</p>
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>Owner</th>
+        <th>Code</th>
+        <th>Station</th>
+        <th>Completed</th>
+        <th>Created</th>
+      </tr>
+    </thead>
+    <tbody class="highlight">
+      <% codes.forEach(function(code) { %>
+      <tr>
+        <td><%= code.owner %></td>
+        <td><%= code.code %></td>
+        <td><%= code.station_id %></td>
+        <td><%= code.completed %></td>
+        <td><%= new Date(code.created_at).toLocaleString() %></td>
+        <td>
+          <a
+            href="<%= `/codes/${code._id}?_method=delete` %>"
+            data-confirm="Are you sure?"
+            data-method="delete"
+            >Destroy</a
+          >
+        </td>
+      </tr>
+      <% }); -%>
+    </tbody>
+  </table>
+</div>

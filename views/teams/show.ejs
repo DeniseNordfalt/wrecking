@@ -1,0 +1,65 @@
+<div id="container">
+<h2>
+    <strong><%= team.name %></strong>
+</h2>
+
+<p>
+    <strong>Tag:</strong>
+    <%= team.shortName %>
+</p>
+<p>
+    <strong>Colour:</strong>
+    #<%= team.colour %>
+        <% if (team.colour) {  %>
+            <div style="width: 50px; height:50px; background-color: <%= team.colour%>;"></div>
+            <% } %>
+</p>
+<p>
+    <strong>Owned stations:</strong>
+    <%= team.captured_stations.join(',') %>
+</p>
+<p>
+    <strong>Score:</strong>
+    <%= team.score %>
+</p>
+
+<a href="/teams/<%= team._id %>/edit">Edit</a> |
+<a href="/teams">Back</a>
+</div>
+
+
+<style>
+@import url('https://fonts.cdnfonts.com/css/chinese-rocks');
+body {
+    background-color: hsl(11, 35%, 10%);
+    color: #ff7200;
+    margin: 0 auto;
+    width: 80%;
+}
+h2 {
+    font-size: 2em;
+    margin-bottom: 40px;
+    margin-top: 20px;
+
+    text-transform: uppercase;
+    font-family: 'Chinese Rocks Rg', sans-serif;
+}
+
+p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    text-transform: uppercase;
+    font-family: 'Chinese Rocks Rg', sans-serif;
+}
+
+#container {
+    margin: 0 auto;
+    width: 80%;
+    width: 200px;
+
+}
+
+
+</style>
