@@ -93,8 +93,6 @@ export const seed = async () => {
   const calibrationCodePromises = calibrationCodes.map(async (code) => {
     const existingCode = await CalibrationCode.findOne({
       code: code.code,
-      owner: code.owner,
-      stationId: code.stationId,
     });
     if (!existingCode) {
       await CalibrationCode.create(code);
