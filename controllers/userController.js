@@ -1,4 +1,3 @@
-import express from "express";
 import User from "../models/user.js";
 
 // router.use(authenticateUser);
