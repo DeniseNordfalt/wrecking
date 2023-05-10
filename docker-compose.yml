@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  server:
+    build:
+      dockerfile: Dockerfile.server
+    ports:
+      - "3000:3000"
+    environment:
+     - MONGODB_URI=mongodb://db:27017/wrecking
+
+  db:
+    image: mongo:6.0.2
+    ports:
+      - "27017:27017"
+    container_name: db
+    volumes:
+      - /data/db
