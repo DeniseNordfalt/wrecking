@@ -1,64 +1,8 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Scorecounter</title>
-    <%- include('partials/head.ejs') %>
-  </head>
+  <%- include('partials/head.ejs') %>
+
   <body>
     <header><h1>BBR: Wrecking</h1></header>
-    <nav>
-      <table>
-        <tr>
-          <td><a href="/public_index">Stats</a></td>
+    <%- include('partials/nav') %>
 
-          <td><a href="/stations">Stations</a></td>
-          <td><a href="/teams">Teams</a></td>
-          <td><a href="/rounds">Game rounds</a></td>
-          <td><a href="/calibration_codes">Calibration Codes</a></td>
-          <td><a href="/thirdgift_index">External api</a></td>
-          <td>
-            <form
-              method="POST"
-              action="/reset_all"
-              onsubmit="return confirm('Reset all?')"
-            >
-              <input type="hidden" name="_method" value="PUT" /><input
-                type="submit"
-                value="Reset all"
-              />
-            </form>
-          </td>
-          <td>
-            <form method="POST" action="/logout?_method=delete">
-              <input type="submit" value="Sign out" />
-            </form>
-          </td>
-
-          <td><a href="/login">Admin</a></td>
-        </tr>
-      </table>
-    </nav>
-  </body>
-</html>
-
-<style>
-  @import url("https://fonts.cdnfonts.com/css/chinese-rocks");
-  h1 {
-    text-align: center;
-    font-size: 3em;
-    margin-bottom: 40px;
-    margin-top: 20px;
-    text-transform: uppercase;
-    font-family: "Chinese Rocks Rg", sans-serif;
-  }
-  header {
-    /* background-color: hsl(11, 35%, 10%); */
-    color: #ff7200;
-    margin: 0 auto;
-    width: 80%;
-    background-image: url("../../styles/bg_navigation.jpg");
-    height: 60px;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-</style>

@@ -1,6 +1,6 @@
-<p id="notice">notice here</p>
+<%- include("../layouts/partials/header") %>
 
-<h1>Listing Stations</h1>
+<h2>Listing Stations</h2>
 
 <table>
   <thead>
@@ -16,22 +16,22 @@
 
   <tbody>
     <% stations.forEach(station => { %>
-      <tr>
-        <td><%= station.location %></td>
-        <td><%= station.team ? station.team.name : "Unclaimed" %></td>
-        <td><%= station.boost %></td>
-        <td> 
-            <% if (station.active) { %>
-                <span style="color:green">Active</span>
-            <% } else { %>
-                <span style="color:red">Inactive</span>
-            <% } %>
-        </td>
-        <td><%= station.lifesign ? station.lifesign : "-" %> </td>
-        <td><a href="/stations/<%= station._id %>">Show</a></td>
-      </tr>
+    <tr>
+      <td><%= station.location %></td>
+      <td><%= station.team ? station.team.name : "Unclaimed" %></td>
+      <td><%= station.boost %></td>
+      <td>
+        <% if (station.active) { %>
+        <span style="color: green">Active</span>
+        <% } else { %>
+        <span style="color: red">Inactive</span>
+        <% } %>
+      </td>
+      <td><%= station.lifesign ? station.lifesign : "-" %></td>
+      <td><a href="/stations/<%= station._id %>">Show</a></td>
+    </tr>
     <% }); %>
   </tbody>
 </table>
 
-<br>
+<br />

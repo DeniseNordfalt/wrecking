@@ -1,0 +1,34 @@
+<% user = "Denise" %>
+<nav>
+  <ul>
+    <% if(user) { %>
+    <li><a href="/">Stats</a></li>
+
+    <li><a href="/stations">Stations</a></li>
+    <li><a href="/teams">Teams</a></li>
+    <li><a href="/rounds">Game rounds</a></li>
+    <li><a href="/calibration_codes">Calibration Codes</a></li>
+    <li><a href="/thirdgift_index">External api</a></li>
+    <li>
+      <form
+        method="POST"
+        action="/reset_all"
+        onsubmit="return confirm('Reset all?')"
+      >
+        <input type="hidden" name="_method" value="PUT" /><input
+          type="submit"
+          value="Reset all"
+        />
+      </form>
+    </li>
+    <li>
+      <form method="POST" action="/logout?_method=delete">
+        <input type="submit" value="Sign out" />
+      </form>
+    </li>
+    <% } else if (!user) { %>
+    <li><a href="/login">Admin Login</a></li>
+
+    <% } %>
+  </ul>
+</nav>

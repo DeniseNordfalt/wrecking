@@ -1,10 +1,12 @@
+<%- include('../layouts/partials/header') %>
+
 <h2>Battle stats</h2>
 <br />
 
 <div>
-  <% if (active_round) { %>
+  <% if (activeRound) { %>
   <h3>The game is on!</h3>
-  <%= active_round.remaining %> left. <% } else { %>
+  <%= activeRound.remaining %> left. <% } else { %>
   <h3>No game right now</h3>
   <% } %>
 </div>
@@ -15,11 +17,13 @@
   <table>
     <tr>
       <th>Team</th>
+      <th>Tag</th>
       <th>Score</th>
     </tr>
     <% teams.forEach(function(team) { %>
     <tr>
       <td><%= team.name %></td>
+      <td><%= team.shortName %></td>
       <td><%= team.score %></td>
     </tr>
     <% }); %>
@@ -38,9 +42,12 @@
     <% stations.forEach(function(station) { %>
     <tr>
       <td><%= station.location %></td>
+      <!-- TODO: Fix this function for names -->
       <td><%= station.owner %></td>
       <td><%= station.boost %></td>
     </tr>
     <% }); %>
   </table>
 </div>
+
+<%- include('../layouts/partials/footer') %>
