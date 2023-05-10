@@ -15,6 +15,8 @@ import roundRoutes from "./roundRoutes.js";
 import adminRoutes from "./adminRoutes.js";
 import publicRoutes from "./publicRoutes.js";
 
+import authenticate from "../middlewares/authenticate.js";
+
 //import { listUsers, newUser } from "../controllers/users.js";
 
 const routes = Router();
@@ -60,22 +62,29 @@ routes.get("/", (req, res, next) => {
     }),
   ])
     .then(([stations, teams, [activeRound], comingRounds]) => {
-      //res.render("index", { stations, teams, activeRound, comingRounds });
-      res.send({ stations, teams, activeRound, comingRounds });
+      res.render("public/index", {
+        stations,
+        teams,
+        activeRound,
+        comingRounds,
+      });
+      //res.send({ stations, teams, activeRound, comingRounds });
     })
     .catch(next);
 });
 
-routes.get("/test", (req, res) => {
-  const query = req.query;
-
-  if (query.json === "true") {
-    res.json({ message: "test" });
-    return;
-  } else {
-    res.render("test/index.ejs", { message: "test" });
-    return;
-  }
+routes.get("/test", authenticate, (req, res) => {
+  res.format({
+    "text/html"() {
+      res.render("test/index.ejs", { message: "test" });
+    },
+    "application/json"() {
+      res.send({ message: "test" });
+    },
+    default() {
+      res.status(406).send("Not Acceptable");
+    },
+  });
 });
 
 routes.get("/public", function (req, res) {
@@ -115,13 +124,16 @@ routes.get("/login", function (req, res) {
 });
 
 routes.post("/login", function (req, res) {
-  // handle login form submission
-
   const { email, password } = req.body;
-  console.log("req.body: ", req.body);
-  console.log("email: ", email);
-  console.log("password: ", password);
-  res.send("login");
+
+  try {
+    const user = User.findByEmailAndPassword(email, password);
+    req.session.userId = user.id;
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    res.render("sessions/new.ejs", { user: req.body, error: err.message });
+  }
 });
 
 routes.delete("/logout", function (req, res) {
@@ -131,9 +143,9 @@ routes.delete("/logout", function (req, res) {
 
 routes.use("/admin", adminRoutes);
 routes.use("/public", publicRoutes);
-routes.use("/rounds", roundRoutes);
+routes.use("/rounds", authenticate, roundRoutes);
 routes.use("/reset", resetRoutes);
-routes.use("/stations", stationRoutes);
+routes.use("/stations", authenticate, stationRoutes);
 routes.use("/teams", teamRoutes);
 routes.use("/calibration_codes", codeRoutes);
 routes.use("/reports", reportRoutes);

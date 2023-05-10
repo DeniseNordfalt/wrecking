@@ -38,10 +38,21 @@ stationRoutes.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const station = await Station.findById(id);
-    res.send(station);
+    res.format({
+      "text/html"() {
+        res.render("stations/show", { station: station });
+      },
+      "application/json"() {
+        res.send(station);
+      },
+      default() {
+        res.status(406).send("Not Acceptable");
+      },
+    });
   } catch (error) {
     res.status(404).send("Station not found");
   }
+
   //const station = await Station.findById(id);
 
   //res.render("stations/show", { station: station });
@@ -53,9 +64,19 @@ stationRoutes.get("/:id/edit", async (req, res) => {
   const id = req.params.id;
   const station = await Station.findById(id);
   //res.render("stations/edit", { station: station });
-  res.send(station);
+  // res.send(station);
 
-  //TODO: add try/catch
+  res.format({
+    "text/html"() {
+      res.render("stations/edit", { station: station });
+    },
+    "application/json"() {
+      res.send(station);
+    },
+    default() {
+      res.status(406).send("Not Acceptable");
+    },
+  });
 });
 
 //PATCH stations/:id
