@@ -80,7 +80,6 @@ const updateTeam = async (req, res) => {
 };
 
 const deleteTeam = async (req, res) => {
-  //TODO: change to bit_id or change id to numbers
   try {
     const team = await Team.findByIdAndDelete(req.params.id);
     if (!team) {
@@ -103,7 +102,7 @@ const getTeamEdit = async (req, res) => {
   }
 };
 
-const teamReset = async (req, res) => {
+const resetTeam = async (req, res) => {
   const id = req.params.id;
   try {
     const team = await Team.findById(id);
@@ -125,5 +124,5 @@ export {
   updateTeam,
   deleteTeam,
   getTeamEdit,
-  teamReset,
+  resetTeam,
 };
