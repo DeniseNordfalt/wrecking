@@ -1,73 +1,45 @@
 import { Router } from "express";
 import Round from "../models/round.js";
 
+import {
+  getRounds,
+  getRoundById,
+  createRound,
+  updateRound,
+  deleteRound,
+} from "../controllers/roundsController.js";
+
 const roundRoutes = Router();
 
 // Rounds
 
 // GET /rounds
-roundRoutes.get("/", async (req, res) => {
-  /*try {
-    const rounds = await Round.find();
-    res.format({
-      "text/html": () => {
-        res.render("rounds/index", { rounds: rounds });
-      },
-      "application/json": () => {
-        res.send(rounds);
-      },
-      default: () => {
-        res.status(406).send("Not Acceptable");
-      },
-    });
-  } catch (error) {
-    res.status(404).send("Round not found");
-  }*/
-  try {
-    const rounds = await Round.find();
-    //res.send(rounds);
-    res.render("rounds/index", { rounds: rounds });
-  } catch (error) {
-    res.status(404).send("Round not found");
-  }
-});
+roundRoutes.get("/", getRounds);
+
+//GET /rounds/:id/
+roundRoutes.get("/:id", getRoundById);
+
+//POST /rounds
+roundRoutes.post("/", createRound);
+
+//PUT /rounds/:id
+roundRoutes.put("/:id", updateRound);
+
+//PATCH /rounds/:id
+roundRoutes.patch("/:id", updateRound);
+
+//DELETE /rounds/:id
+roundRoutes.delete("/:id", deleteRound);
+
+////////////////////////////////////////////
 
 //GET /rounds/new
 roundRoutes.get("/new", async (req, res) => {
   res.send("rounds new");
 });
 
-//GET /rounds/:id/
-roundRoutes.get("/:id", async (req, res) => {
-  /* ... */
-  const id = req.params.id;
-
-  try {
-    const round = await Round.findById(id);
-    res.send(round);
-  } catch (error) {
-    res.status(404).send("Round not found");
-  }
-});
-
-//POST /rounds
-roundRoutes.post("/", async (req, res) => {
-  // const { name, starttime, endtime } = req.body;
-  //TODO: update
-  // const { name, starttime, endtime } = req.body;
-  // const round = new Round({ name, starttime, endtime });
-  const round = new Round(req.body);
-  try {
-    await round.save();
-    res.send(round);
-  } catch (error) {
-    res.status(404).send("Round could not be created" + error);
-  }
-});
-
 //GET /rounds/:id/edit
 roundRoutes.get("/:id/edit", async (req, res) => {
-  /* ... */
   const id = req.params.id;
 
   try {
@@ -75,59 +47,6 @@ roundRoutes.get("/:id/edit", async (req, res) => {
     res.send(round);
   } catch (error) {
     res.status(404).send("Round not found");
-  }
-});
-
-//PUT /rounds/:id
-roundRoutes.put("/:id", async (req, res) => {
-  const id = req.params.id;
-  const { name, starttime, endtime } = req.body;
-
-  try {
-    const round = Round.findById(id);
-    round.name = name;
-    round.starttime = starttime;
-    round.endtime = endtime;
-    await round.save();
-    res.send(round);
-  } catch (error) {
-    res.status(404).send("Round could not be updated");
-  }
-});
-
-// PATCH /rounds/:id
-roundRoutes.patch("/:id", async (req, res) => {
-  const id = req.params.id;
-  const { name, starttime, endtime } = req.body;
-
-  try {
-    const round = await Round.findById(id);
-    if (name) {
-      round.name = name;
-    }
-    if (starttime) {
-      round.starttime = starttime;
-    }
-    if (endtime) {
-      round.endtime = endtime;
-    }
-    await round.save();
-    res.send(round);
-  } catch (error) {
-    res.status(404).send("Round could not be updated");
-  }
-});
-
-//DELETE /rounds/:id
-roundRoutes.delete("/:id", async (req, res) => {
-  const id = req.params.id;
-
-  try {
-    const round = await Round.findByIdAndDelete(id);
-
-    res.send(round + " deleted successfully");
-  } catch (error) {
-    res.status(404).send("Round could not be deleted");
   }
 });
 
