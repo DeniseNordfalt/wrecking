@@ -54,7 +54,8 @@ async function watchGameRound() {
 
     if (round) {
       await round.updateOne({ active: true });
-      await Team.clearCapturedStations();
+      // await Team.clearCapturedStations();
+      //TODO: FIX THIS
     }
 
     const activeRound = await Round.findOne({ active: true });
@@ -69,7 +70,7 @@ async function watchGameRound() {
 
         for (const team of teams) {
           for (const station of team.stations) {
-            if ((1 << (station.id - 1)) & activeRound.stations) {
+            if ((1 << (station.bit_id - 1)) & activeRound.stations) {
               team.score += station.boost;
             }
           }
@@ -81,6 +82,7 @@ async function watchGameRound() {
         if (timeElapsed >= interval) {
           lastTick += interval;
           //Thirdgift.setActiveStations();
+          console.log("tick");
         }
 
         await new Promise((resolve) => setTimeout(resolve, 100));
