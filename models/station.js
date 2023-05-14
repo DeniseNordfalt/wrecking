@@ -5,7 +5,7 @@ const stationSchema = new Schema({
   bit_id: { type: Number }, //fix auto increment
   location: { type: String, required: true },
   //   team_id: { type: Schema.Types.ObjectId, ref: "Team" },
-  //team: { type: Schema.Types.ObjectId, ref: "Team" },
+  team: { type: Schema.Types.ObjectId, ref: "Team" },
   team_id: { type: Number, index: true },
   boost: { type: Number, default: 100, required: true },
   created_at: { type: Date, default: Date.now },
@@ -13,13 +13,14 @@ const stationSchema = new Schema({
   latest_com: { type: Date },
   under_capture: { type: Boolean, default: false },
   reward: { type: Number },
+  owner: { type: Number, default: 0 },
 });
 
-stationSchema.methods.owner = function () {
-  if (this.team) {
-    return this.team.name;
-  }
-};
+// stationSchema.methods.owner = function () {
+//   if (this.team) {
+//     return this.team.name;
+//   }
+// };
 
 stationSchema.pre("remove", function (next) {
   // Find all dependent documents and remove them
