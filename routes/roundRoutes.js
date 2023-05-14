@@ -21,9 +21,29 @@ roundRoutes.get("/", (req, res) => {
 
 // GET /rounds
 roundRoutes.get("/", async (req, res) => {
-  const rounds = await Round.find();
-  res.send(rounds);
-  //res.render("rounds/index", { rounds: rounds });
+  /*try {
+    const rounds = await Round.find();
+    res.format({
+      "text/html": () => {
+        res.render("rounds/index", { rounds: rounds });
+      },
+      "application/json": () => {
+        res.send(rounds);
+      },
+      default: () => {
+        res.status(406).send("Not Acceptable");
+      },
+    });
+  } catch (error) {
+    res.status(404).send("Round not found");
+  }*/
+  try {
+    const rounds = await Round.find();
+    //res.send(rounds);
+    res.render("rounds/index", { rounds: rounds });
+  } catch (error) {
+    res.status(404).send("Round not found");
+  }
 });
 
 //GET /rounds/new
