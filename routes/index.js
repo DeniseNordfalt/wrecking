@@ -14,8 +14,10 @@ import reportRoutes from "./reportRoutes.js";
 import roundRoutes from "./roundRoutes.js";
 import adminRoutes from "./adminRoutes.js";
 import publicRoutes from "./publicRoutes.js";
+import userRoutes from "./userRoutes.js";
 
 import authenticate from "../middlewares/authenticate.js";
+import responseFormatter from "../middlewares/responseFormatter.js";
 
 //import { listUsers, newUser } from "../controllers/users.js";
 
@@ -52,8 +54,27 @@ routes.get("/", function (req, res) {
 });
 */
 
-routes.get("/", (req, res, next) => {
-  Promise.all([
+routes.get("/", async (req, res, next) => {
+  try {
+    const [stations, teams, [activeRound], comingRounds] = await Promise.all([
+      Station.find(),
+      Team.find(),
+      Round.find({ active: true }).sort({ endtime: "desc" }).limit(1),
+      Round.find({ active: false, starttime: { $gt: new Date() } }).sort({
+        starttime: "asc",
+      }),
+    ]);
+    res.render("public/index", {
+      stations,
+      teams,
+      activeRound,
+      comingRounds,
+    });
+  } catch (err) {
+    next(err);
+  }
+
+  /*Promise.all([
     Station.find(),
     Team.find(),
     Round.find({ active: true }).sort({ endtime: "desc" }).limit(1),
@@ -70,7 +91,7 @@ routes.get("/", (req, res, next) => {
       });
       //res.send({ stations, teams, activeRound, comingRounds });
     })
-    .catch(next);
+    .catch(next);*/
 });
 
 routes.get("/test", authenticate, (req, res) => {
@@ -90,30 +111,6 @@ routes.get("/test", authenticate, (req, res) => {
 routes.get("/public", function (req, res) {
   // handle request for public page
   res.send("public");
-});
-
-// routes.get("/users", listUsers);
-routes.get("/users", async (req, res) => {
-  res.render("users/new.ejs", { user: new User() });
-});
-routes.post("/users", async (req, res) => {
-  try {
-    const { name, email, password_digest } = req.body;
-
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      throw new Error("User with this email already exists");
-    }
-
-    // Create new user
-    const user = new User({ name, email, password_digest });
-    await user.save();
-    res.redirect("/");
-  } catch (err) {
-    console.error(err);
-    res.render("users/new.ejs", { user: req.body, error: err.message });
-  }
 });
 
 routes.get("/login", function (req, res) {
@@ -149,5 +146,6 @@ routes.use("/stations", authenticate, stationRoutes);
 routes.use("/teams", teamRoutes);
 routes.use("/calibration_codes", codeRoutes);
 routes.use("/reports", reportRoutes);
+routes.use("/users", userRoutes);
 
 export default routes;
