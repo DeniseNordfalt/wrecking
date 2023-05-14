@@ -1,46 +1,3 @@
-// import Team from "../models/team.js";
-// import Station from "../models/station.js";
-
-// export const seed = async () => {
-//   Team.create({ name: "Chaos", shortName: "666", colour: "FF0000" })
-//     .then(() => {
-//       return Team.create({
-//         name: "Cyberkomm",
-//         shortName: "CYB",
-//         colour: "003CFF",
-//       });
-//     })
-//     .then(() => {
-//       return Team.create({
-//         name: "Klustret",
-//         shortName: "CLU",
-//         colour: "B300FF",
-//       });
-//     })
-//     .then(() => {
-//       return Team.create({
-//         name: "Hjortkloe",
-//         shortName: "HKM",
-//         colour: "FFBF00",
-//       });
-//     })
-//     .then(() => {
-//       return Station.create({ location: "Vägslut", team: null });
-//     })
-//     .then(() => {
-//       return Station.create({ location: "Sandfält", team: null });
-//     })
-//     .then(() => {
-//       return Station.create({ location: "Skogsby", team: null });
-//     })
-//     .then(() => {
-//       return Station.create({ location: "Grusdump", team: null });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// };
-
 import Team from "../models/team.js";
 import Station from "../models/station.js";
 import CalibrationCode from "../models/calibration_code.js";
@@ -54,10 +11,10 @@ export const seed = async () => {
   ];
 
   const teams = [
-    { name: "Chaos", shortName: "666", colour: "FF0000" },
-    { name: "Cyberkomm", shortName: "CYB", colour: "003CFF" },
-    { name: "Klustret", shortName: "CLU", colour: "B300FF" },
-    { name: "Hjortkloe", shortName: "HKM", colour: "FFBF00" },
+    { name: "Chaos", shortName: "666", colour: "FF0000", team_id: 1 },
+    { name: "Cyberkomm", shortName: "CYB", colour: "003CFF", team_id: 2 },
+    { name: "Klustret", shortName: "CLU", colour: "B300FF", team_id: 3 },
+    { name: "Hjortkloe", shortName: "HKM", colour: "FFBF00", team_id: 4 },
   ];
 
   const calibrationCodes = [
@@ -77,14 +34,14 @@ export const seed = async () => {
 
   const stationPromises = stations.map(async (station) => {
     const existingStation = await Station.findOne({
-      location: station.location,
+      bit_id: station.bit_id,
     });
     if (!existingStation) {
       await Station.create(station);
     }
   });
   const teamPromises = teams.map(async (team) => {
-    const existingTeam = await Team.findOne({ name: team.name });
+    const existingTeam = await Team.findOne({ team_id: team.team_id });
     if (!existingTeam) {
       await Team.create(team);
     }
