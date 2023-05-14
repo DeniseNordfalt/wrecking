@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 const teamSchema = new Schema({
   //id: { type: Number, required: true },
   id: { type: Number, unique: true },
+  team_id: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
   score: { type: Number, default: 0, nullable: false },
   colour: { type: String, required: true },
