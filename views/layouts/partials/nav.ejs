@@ -7,8 +7,8 @@
     <li><a href="/stations">Stations</a></li>
     <li><a href="/teams">Teams</a></li>
     <li><a href="/rounds">Game rounds</a></li>
-    <li><a href="/calibration_codes">Calibration Codes</a></li>
-    <li><a href="/thirdgift_index">External api</a></li>
+    <!-- <li><a href="/calibration_codes">Calibration Codes</a></li>
+    <li><a href="/thirdgift_index">External api</a></li> -->
     <li>
       <form
         method="POST"
@@ -21,11 +21,20 @@
         />
       </form>
     </li>
-    <li>
+    <!-- <li>
       <form method="POST" action="/logout?_method=delete">
         <input type="submit" value="Sign out" />
       </form>
+    </li> -->
+    <input
+      type="submit"
+      value="Sign out"
+      onclick="localStorage.removeItem('user')"
+    />
+    <li>
+      <button onclick="localStorage.setItem('user', 'Denise')">add user</button>
     </li>
+
     <% } else if (!user) { %>
     <li><a href="/login">Admin Login</a></li>
 

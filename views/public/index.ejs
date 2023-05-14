@@ -43,7 +43,8 @@
     <tr>
       <td><%= station.location %></td>
       <!-- TODO: Fix this function for names -->
-      <td><%= station.owner %></td>
+      <!-- <td><%= station.owner %></td> -->
+      <td><%= station.team ? station.team.name : "Unclaimed" %></td>
       <td><%= station.boost %></td>
     </tr>
     <% }); %>

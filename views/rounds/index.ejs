@@ -1,4 +1,6 @@
-<h1>Listing Rounds</h1>
+<%- include('../layouts/partials/header') %>
+
+<h2>Listing Rounds</h2>
 
 <table>
   <thead>
@@ -8,30 +10,30 @@
       <th>Start time</th>
       <th>End time</th>
       <th>Remaining</th>
-      <th>Score</th>
       <th colspan="3"></th>
     </tr>
   </thead>
-
   <tbody>
-    <% rounds.forEach(function(round) { %>
+    <% rounds.forEach(round => { %>
     <tr>
       <td><%= round.name %></td>
-      <td><%= round.active %></td>
+      <td>
+        <% if (round.active) { %>
+        <span style="color: green">Active</span>
+        <% } else { %>
+        <span style="color: red">Inactive</span>
+        <% } %>
+      </td>
       <td><%= round.starttime %></td>
       <td><%= round.endtime %></td>
-      <td><%= round.remaining if round.active %></td>
-      <td><%= round.score %></td>
-      <td><a href="/rounds/<%= round.id %>">Show</a></td>
-      <td><a href="/rounds/<%= round.id %>/edit">Edit</a></td>
+      <td><%= round.remaining %></td>
+      <!-- TODO: Fix the remaining time function -->
+      <td><a href="/rounds/<%= round._id %>">Show</a></td>
+      <td><a href="/rounds/<%= round._id %>/edit">Edit</a></td>
       <td>
-        <form
-          action="/rounds/<%= round.id %>"
-          method="POST"
-          onsubmit="return confirm('Are you sure?')"
-        >
-          <input type="hidden" name="_method" value="delete" />
-          <button type="submit">Destroy</button>
+        <form action="/rounds/<%= round._id %>/reset" method="post">
+          <input type="hidden" name="_method" value="put" />
+          <input type="submit" value="Reset" />
         </form>
       </td>
     </tr>
@@ -41,28 +43,21 @@
 
 <br />
 
-<form action="/rounds" method="POST">
+<form method="POST" action="/rounds">
   <label for="round_starttime">Start time</label><br />
-  <input type="date" id="round_starttime" name="round[starttime]" /><br />
+  <input type="date" id="round_starttime" name="round.starttime" /><br />
   <input
     type="datetime-local"
     id="round_starttime_time"
-    name="round[starttime_time]"
+    name="round.starttime"
     step="300"
     value="<%= new Date().toISOString().slice(0, -8) + '00:00' %>"
   /><br />
   <label for="round_length">Length</label>
-  <input type="text" id="round_length" name="round[length]" /><br />
+  <input type="text" id="round_length" name="round.length" /><br />
   <label for="round_stations">Active stations:</label><br />
-  <% stations.forEach(function(station, index) { %> <%= station.location %>
-  <input
-    type="checkbox"
-    name="round[stations][<%= station.id %>]"
-    value="active"
-    checked
-  /><br />
-  <% }); %><br />
-  <button type="submit">Submit</button>
+
+  <input type="submit" value="Submit" />
 </form>
 
 <a href="/rounds/new">New Round</a>
