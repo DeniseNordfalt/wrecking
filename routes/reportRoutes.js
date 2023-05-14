@@ -3,8 +3,24 @@ import Station from "../models/station.js";
 import Team from "../models/team.js";
 import Round from "../models/round.js";
 import CalibrationCode from "../models/calibration_code.js";
+import mongoose from "mongoose";
+
+import {
+  getOwner,
+  getTimeToStart,
+  getBoost,
+  setOwner,
+  underCapture,
+} from "../controllers/reportsController.js";
+
+import verifyPasskey from "../middlewares/verifyPasskey.js";
 
 const reportRoutes = Router();
+
+//RUBY CODE
+// skip_before_filter  :verify_authenticity_token
+// before_action :verify_passkey, only: [:set_owner, :set_boost, :verify_calibration_code, :submit_calibration_code, :set_mission]
+// after_action :report_com, only: [:get_boost, :set_owner, :get_station_time_to_start]
 
 // Reports
 
@@ -22,33 +38,53 @@ reportRoutes.get("/", (req, res) => {
 });
 */
 
+// SET STATION OWNER
+reportRoutes.get("/:station/so", verifyPasskey, setOwner);
+
+// GET STATION BOOST
+reportRoutes.get("/:station/gb", getBoost);
+
+// GET OWNER
+reportRoutes.get("/:id/go", getOwner);
+
+// GET TIME TO START
+reportRoutes.get("/:station/tts", getTimeToStart);
+
+// UNDER CAPTURE
+reportRoutes.get("/:station/uc", underCapture);
+
+// reportRoutes.get("/:station/boost", async (req, res) => {
+
+/////////////////////////////////////////////////////////////
+
 // GET /reports
+
 reportRoutes.get("/", (req, res) => {
   /* ... */
   res.send("reports index");
 });
 
 // GET /reports/:id/get_owner
-reportRoutes.get("/:id/get_owner", async (req, res) => {
-  try {
-    const station = await Station.findById(req.params.id);
-    if (station) {
-      //if (station.team && station.team_id >= 1 && station.team_id <= 4) {
-      if (station.team && station.team._id) {
-        //res.status(200).send(`Ok:${station.team_id}`);
-        res.status(200).send(`Ok:${station.team._id}`);
-        console.log(station.owner);
-      } else {
-        res.status(200).send("Ok:0");
-      }
-    } else {
-      res.status(404).send("Station not found");
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
-  }
-});
+// reportRoutes.get("/:id/get_owner", async (req, res) => {
+//   try {
+//     const station = await Station.findById(req.params.id);
+//     if (station) {
+//       //if (station.team && station.team_id >= 1 && station.team_id <= 4) {
+//       if (station.team && station.team._id) {
+//         //res.status(200).send(`Ok:${station.team_id}`);
+//         res.status(200).send(`Ok:${station.team._id}`);
+//         console.log(station.owner);
+//       } else {
+//         res.status(200).send("Ok:0");
+//       }
+//     } else {
+//       res.status(404).send("Station not found");
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Server error");
+//   }
+// });
 
 //PUT /reports/:id/set_owner
 reportRoutes.put("/:id/set_owner", async (req, res) => {
@@ -131,23 +167,6 @@ reportRoutes.put("/:station/boost", async (req, res) => {
   }
 });
 
-// GET /reports/:station/boost
-
-reportRoutes.get("/:station/boost", async (req, res) => {
-  try {
-    const id = req.params.station;
-    const station = await Station.findById(id);
-
-    if (!station) {
-      return res.status(404).send("Station not found");
-    }
-
-    res.status(200).send(`Ok:${station.boost}`);
-  } catch (err) {
-    return res.status(500).send(err.message);
-  }
-});
-
 // GET /reports/round/get_time_to_start
 reportRoutes.get("/round/get_time_to_start", async (req, res) => {
   const rounds = await Round.find({}).exec();
@@ -172,45 +191,9 @@ reportRoutes.get("/round/get_time_to_start", async (req, res) => {
 });
 
 // GET /reports/:station/round/get_station_time_to_start
-reportRoutes.get(
-  "/:station/round/get_station_time_to_start",
-  async (req, res) => {
-    // TODO: double check this
-    try {
-      const station = await Station.findById(req.params.station);
-      let active_rounds, coming_rounds;
-
-      if ((await Round.active().countDocuments()) > 0) {
-        active_rounds = await Round.active();
-        active_rounds = active_rounds.filter(
-          (x) => (1 << (station.id - 1)) & x.stations
-        );
-      }
-
-      if (active_rounds && active_rounds.length > 0) {
-        return res.status(200).send(`Ok:${-active_rounds[0].seconds_left()}`);
-      }
-
-      if ((await Round.coming().countDocuments()) > 0) {
-        coming_rounds = await Round.coming();
-        coming_rounds = coming_rounds.filter(
-          (x) => (1 << (station.id - 1)) & x.stations
-        );
-      }
-
-      if (coming_rounds && coming_rounds.length > 0) {
-        return res
-          .status(200)
-          .send(`Ok:${(coming_rounds[0].starttime - Date.now()) / 1000 + 1}`);
-      }
-
-      return res.status(200).send("Ok:999999");
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
-    }
-  }
-);
+// reportRoutes.get(
+//   "/:station/round/get_station_time_to_start",
+//   async (req, res) => {
 
 //POST /reports/:station/verify_calibration_code
 reportRoutes.post("/:station/verify_calibration_code", async (req, res) => {
