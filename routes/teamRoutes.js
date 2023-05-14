@@ -7,7 +7,7 @@ import {
   updateTeam,
   deleteTeam,
   getTeamEdit,
-  teamReset,
+  resetTeam,
 } from "../controllers/teamsController.js";
 
 const teamRoutes = Router();
@@ -34,6 +34,6 @@ teamRoutes.delete("/:id", deleteTeam);
 teamRoutes.get("/:id/edit", getTeamEdit);
 
 //Reset team score
-teamRoutes.put("/:id/reset", teamReset);
+teamRoutes.put("/:id/reset", resetTeam);
 
 export default teamRoutes;
