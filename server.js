@@ -11,8 +11,8 @@ dotenv.config();
 import { setupMongoDb } from "./config/db.js";
 import { seed } from "./config/seed.js";
 
-import GameRound from "./gameround.js";
-import { playGameRound, watchGameRound } from "./gameround_two.js";
+// import { playGameRound, watchGameRound } from "./gameround_two.js";
+import { watchGameRound } from "./gameround_two.js";
 
 import router from "./routes/index.js";
 
@@ -30,18 +30,14 @@ const __dirname = dirname(__filename);
 
 app.use(express.static(join(__dirname, "public")));
 
+//get all the routes from the router
 app.use("/", router);
 
-const MONGODB_URI = "mongodb://127.0.0.1/wrecking";
-
-//const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1/wrecking";
 
 app.listen(PORT, () => {
   setupMongoDb(MONGODB_URI);
   seed();
-  //const gameRound = new GameRound();
-  //gameRound.start();
-  //gameRound.watch();
   //playGameRound();
   watchGameRound();
 
