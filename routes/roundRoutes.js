@@ -4,20 +4,6 @@ import Round from "../models/round.js";
 const roundRoutes = Router();
 
 // Rounds
-/*
-roundRoutes.get("/", (req, res) => {
-
-  const baseUrl = req.baseUrl;
-  const routes = roundRoutes.stack
-    .filter((layer) => layer.route && layer.route.methods.get)
-    .map((layer) => layer.route.path);
-  const links = routes
-    .map((route) => `<li><a href="${baseUrl}${route}">${route}</a></li>`)
-    .join("");
-  const html = `<h1>${baseUrl}</h1><br /><ul>${links}</ul>`;
-  res.send(html);
-});
-*/
 
 // GET /rounds
 roundRoutes.get("/", async (req, res) => {

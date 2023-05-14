@@ -16,43 +16,10 @@ import adminRoutes from "./adminRoutes.js";
 import publicRoutes from "./publicRoutes.js";
 import userRoutes from "./userRoutes.js";
 
-import authenticate from "../middlewares/authenticate.js";
+import authenticateUser from "../middlewares/authenticateUser.js";
 import responseFormatter from "../middlewares/responseFormatter.js";
 
-//import { listUsers, newUser } from "../controllers/users.js";
-
 const routes = Router();
-/*
-routes.get("/", function (req, res) {
-  const baseUrl = req.baseUrl;
-
-  // Get all the paths from the router stack
-  const paths = routes.stack
-    .filter((layer) => layer.route && layer.route.methods.get)
-    .map((layer) => layer.route.path);
-
-  // Get all the paths from the 'use' statements
-  const usePaths = [
-    "/rounds",
-    "/reset",
-    "/stations",
-    "/teams",
-    "/codes",
-    "/reports",
-  ];
-
-  // Combine all the paths
-  const allPaths = [...paths, ...usePaths];
-
-  const links = allPaths
-    //.filter((path) => path !== "/") // Filter out the root path
-    .map((path) => `<li><a href="${baseUrl}${path}">${path}</a></li>`)
-    .join("");
-
-  const html = `<h1>${baseUrl}</h1><br /><ul>${links}</ul>`;
-  res.send(html);
-});
-*/
 
 routes.get("/", async (req, res, next) => {
   try {
@@ -94,7 +61,46 @@ routes.get("/", async (req, res, next) => {
     .catch(next);*/
 });
 
-routes.get("/test", authenticate, (req, res) => {
+routes.get("/public", function (req, res) {
+  // handle request for public page
+  res.send("public");
+});
+
+routes.get("/login", function (req, res) {
+  // handle request for login page
+
+  // res.render("users/login.ejs", { user: new User() });
+  res.render("sessions/new.ejs", { user: new User(), error: "" });
+});
+
+routes.post("/login", async function (req, res) {
+  const { email, password } = req.body;
+  console.log("email: " + email);
+  console.log("password: " + password);
+
+  try {
+    const user = await User.login(email, password);
+    console.log("user: " + user);
+    req.session.userId = user._id;
+
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    res.render("sessions/new.ejs", { user: req.body, error: err.message });
+  }
+});
+
+routes.delete("/logout", function (req, res) {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log("logout");
+    res.redirect("/");
+  });
+});
+
+routes.get("/test", authenticateUser, (req, res) => {
   res.format({
     "text/html"() {
       res.render("test/index.ejs", { message: "test" });
@@ -108,42 +114,12 @@ routes.get("/test", authenticate, (req, res) => {
   });
 });
 
-routes.get("/public", function (req, res) {
-  // handle request for public page
-  res.send("public");
-});
-
-routes.get("/login", function (req, res) {
-  // handle request for login page
-
-  // res.render("users/login.ejs", { user: new User() });
-  res.render("sessions/new.ejs", { user: new User(), error: "" });
-});
-
-routes.post("/login", function (req, res) {
-  const { email, password } = req.body;
-
-  try {
-    const user = User.findByEmailAndPassword(email, password);
-    req.session.userId = user.id;
-    res.redirect("/");
-  } catch (err) {
-    console.error(err);
-    res.render("sessions/new.ejs", { user: req.body, error: err.message });
-  }
-});
-
-routes.delete("/logout", function (req, res) {
-  // handle logout
-  res.send("logout");
-});
-
 routes.use("/admin", adminRoutes);
 routes.use("/public", publicRoutes);
-routes.use("/rounds", authenticate, roundRoutes);
-routes.use("/reset", resetRoutes);
-routes.use("/stations", authenticate, stationRoutes);
-routes.use("/teams", teamRoutes);
+routes.use("/rounds", authenticateUser, roundRoutes);
+routes.use("/reset", authenticateUser, resetRoutes);
+routes.use("/stations", authenticateUser, stationRoutes);
+routes.use("/teams", authenticateUser, teamRoutes);
 routes.use("/calibration_codes", codeRoutes);
 routes.use("/reports", reportRoutes);
 routes.use("/users", userRoutes);

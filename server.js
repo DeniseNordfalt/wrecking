@@ -2,6 +2,7 @@ import express, { json } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import session from "express-session";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -18,6 +19,17 @@ import router from "./routes/index.js";
 
 const app = express();
 const PORT = 3000;
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000,
+    },
+  })
+);
 
 app.use(cors());
 app.use(json());
