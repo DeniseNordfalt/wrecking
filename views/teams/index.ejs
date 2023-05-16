@@ -23,8 +23,8 @@
       <td><a href="/teams/<%= team._id %>">Show</a></td>
       <td><a href="/teams/<%= team._id %>/edit">Edit</a></td>
       <td>
-        <form action="/teams/<%= team._id %>/reset" method="post">
-          <input type="hidden" name="_method" value="put" />
+        <form action="/teams/<%= team._id %>/reset?_method=PUT" method="POST">
+          <input type="hidden" name="_method" value="PUT" />
           <input type="submit" value="Reset" />
         </form>
       </td>

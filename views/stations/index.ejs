@@ -21,7 +21,7 @@
       <td><%= station.team ? station.team.name : "Unclaimed" %></td>
       <td><%= station.boost %></td>
       <td>
-        <% if (station.active) { %>
+        <% if (station.active()) { %>
         <span style="color: green">Active</span>
         <% } else { %>
         <span style="color: red">Inactive</span>

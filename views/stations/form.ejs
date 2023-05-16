@@ -1,52 +1,50 @@
-
 <% if (station.id) { %>
-<h1><%= station.location %></h1>
+<h2><%= station.location %></h2>
 
-<form action="/stations/<%= station.id %>" method="post">
-  <input type="hidden" name="_method" value="patch">
+<form action="/stations/<%= station.id %>?_method=PATCH" method="POST">
+  <input type="hidden" name="_method" value="PATCH" />
 
-<label for="location">Location:</label>
-<input type="text" name="location" value="<%= station.location %>">
+  <label for="location">Location:</label>
+  <input type="text" name="location" value="<%= station.location %>" />
 
-<label for="boost">Boost:</label>
-<input type="text" name="boost" value="<%= station.boost %>">
+  <label for="boost">Boost:</label>
+  <input type="text" name="boost" value="<%= station.boost %>" />
 
-<label for="reward">Calibration reward:</label>
-<input type="text" name="reward" value="<%= station.reward %>">
+  <label for="reward">Calibration reward:</label>
+  <input type="text" name="reward" value="<%= station.reward %>" />
 
-<label for="team_id">Team:</label>
-<select name="team_id">
+  <label for="team">Team:</label>
+ <select name="team">
   <option value="">Unclaimed</option>
+  <% teams.forEach(team => { %>
+    <option value="<%= team._id %>"><%= team.name %></option>
+  <% }) %>
 </select>
 
-<% } else { %>
-  <h1>New station</h1>
+  <% } else { %>
+  <h2>New station</h2>
 
-<label for="location">Location:</label>
-<input type="text" name="location" value="<%= station.location %>">
+  <label for="location">Location:</label>
+  <input type="text" name="location" value="<%= station.location %>" />
 
-<label for="boost">Boost:</label>
+  <label for="boost">Boost:</label>
 
-<input type="text" name="boost" value="<%= station.boost %>">
+  <input type="text" name="boost" value="<%= station.boost %>" />
 
-<label for="reward">Calibration reward:</label>
-<input type="text" name="reward" value="<%= station.reward %>">
+  <label for="reward">Calibration reward:</label>
+  <input type="text" name="reward" value="<%= station.reward %>" />
 
-<label for="team_id">Team:</label>
-<select name="team_id">
-  <option value="">Unclaimed</option>
+  <label for="team_id">Team:</label>
+  <select name="team_id">
+    <option value="">Unclaimed</option>
+    <% teams.forEach(team => { %>
+      <option value="<%= team.id %>"><%= team.name %></option>
+    <% }) %>
+  </select>
 
-</select>
-
-<% } %>
-
-<% if (station.id) { %>
+  <% } %> <% if (station.id) { %>
   <button type="submit">Update</button>
-<% } else { %>
-    <button type="submit">Create</button>
-<% } %>
-
+  <% } else { %>
+  <button type="submit">Create</button>
+  <% } %>
 </form>
-
-
-

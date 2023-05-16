@@ -6,7 +6,7 @@
 <div>
   <% if (activeRound) { %>
   <h3>The game is on!</h3>
-  <%= activeRound.remaining %> left. <% } else { %>
+  <%= activeRound.remaining() %> left. <% } else { %>
   <h3>No game right now</h3>
   <% } %>
 </div>
@@ -42,8 +42,6 @@
     <% stations.forEach(function(station) { %>
     <tr>
       <td><%= station.location %></td>
-      <!-- TODO: Fix this function for names -->
-      <!-- <td><%= station.owner %></td> -->
       <td><%= station.team ? station.team.name : "Unclaimed" %></td>
       <td><%= station.boost %></td>
     </tr>

@@ -1,4 +1,5 @@
-<form method="post" action="/teams/<%= team.id %>">
+<form method="post" action="/teams/<%= team._id %>?_method=PATCH">
+  <input type="hidden" name="_method" value="PATCH" />
   <% if (team.errors && team.errors.length > 0) { %>
   <div id="error_explanation">
     <h2><%= team.errors.length %> prohibited this team from being saved:</h2>
@@ -16,13 +17,17 @@
     <input type="text" id="name" name="name" value="<%= team.name %>" />
   </div>
   <div class="field">
-    <label for="short_name">Short name</label><br />
+    <label for="shortName">Short name</label><br />
     <input
       type="text"
-      id="short_name"
-      name="short_name"
+      id="shortName"
+      name="shortName"
       value="<%= team.shortName %>"
     />
+  </div>
+  <div class="field">
+    <label for="colour">Colour</label><br />
+    <input type="text" id="colour" name="colour" value="<%= team.colour %>" />
   </div>
   <div class="field">
     <label for="score">Score</label><br />

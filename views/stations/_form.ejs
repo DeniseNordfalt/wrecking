@@ -1,4 +1,5 @@
- <%- const station = locals.station; const teams = locals.teams; const errors = locals.errors %> 
+<%- include("../layouts/partials/header") %>
+<%- const station = locals.station; const teams = locals.teams; const errors = locals.errors %> 
 
 <form method="POST" action="<%= '/stations/' + encodeURIComponent(station._id) %>">
   <%- if (errors && errors.length) { %>
