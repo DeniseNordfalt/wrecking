@@ -4,13 +4,14 @@ import Station from "../models/station.js";
 const getRounds = async (req, res) => {
   try {
     const rounds = await Round.find();
+    const stations = await Station.find();
 
     res.format({
       "text/html": () => {
-        res.render("rounds/index", { rounds: rounds });
+        res.render("rounds/index", { rounds: rounds, stations: stations });
       },
       "application/json": () => {
-        res.send({ rounds: rounds });
+        res.send({ rounds: rounds, stations: stations });
       },
       default: () => {
         res.status(406).send("Not Acceptable");
@@ -26,7 +27,19 @@ const getRoundById = async (req, res) => {
 
   try {
     const round = await Round.findById(id);
-    res.send(round);
+    const stations = await Station.find();
+
+    res.format({
+      "text/html": () => {
+        res.render("rounds/show", { round: round, stations: stations });
+      },
+      "application/json": () => {
+        res.send({ round: round, stations: stations });
+      },
+      default: () => {
+        res.status(406).send("Not Acceptable");
+      },
+    });
   } catch (error) {
     res.status(404).send("Round not found");
   }
