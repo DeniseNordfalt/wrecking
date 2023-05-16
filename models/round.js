@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 
 const roundSchema = new Schema({
-  id: { type: Number, unique: true },
   name: { type: String },
   active: { type: Boolean, default: false },
 

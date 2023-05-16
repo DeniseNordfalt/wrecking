@@ -4,17 +4,25 @@
   <input type="hidden" name="_method" value="PATCH" />
 
   <label for="name">Name</label><br />
-  <input type="text" id="name" name="name" value="<%= round.name %>" /><br />
+  <input
+    type="text"
+    required
+    id="name"
+    name="name"
+    value="<%= round.name %>"
+  /><br />
   <label for="starttime">Start time</label><br />
   <input
     type="datetime-local"
     id="starttime"
+    required
     name="starttime"
     value="<%= new Date().toISOString().slice(0, -8) + '00:00' %>"
   /><br />
   <label for="endtime">End time</label><br />
   <input
     type="datetime-local"
+    required
     id="endtime"
     name="endtime"
     value="<%= new Date().toISOString().slice(0, -8) + '00:00' %>"

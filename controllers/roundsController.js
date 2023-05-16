@@ -46,10 +46,16 @@ const getRoundById = async (req, res) => {
 };
 
 const createRound = async (req, res) => {
-  const round = new Round(req.body);
+  const { starttime, endtime, name } = req.body;
   try {
+    const round = new Round({
+      starttime: starttime,
+      endtime: endtime,
+      name: name,
+    });
+
     await round.save();
-    res.send(round);
+    res.redirect("/rounds");
   } catch (error) {
     res.status(404).send("Round could not be created" + error);
   }
@@ -71,7 +77,7 @@ const updateRound = async (req, res) => {
       round.endtime = endtime;
     }
     await round.save();
-    res.send(round);
+    res.direct("/rounds/" + id);
   } catch (error) {
     res.status(404).send("Round could not be updated");
   }
