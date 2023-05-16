@@ -1,4 +1,3 @@
-import sleep from "./helpers/sleep.js";
 import Round from "./models/round.js";
 import Team from "./models/team.js";
 
@@ -6,7 +5,6 @@ async function playGameRound() {
   console.log("Let's play a game");
   const interval = 1000; // 1 second
   const round = await Round.findOne().sort("-endtime");
-  let lastTick = Date.now();
   let firstUpdate = Date.now();
 
   if (round) {
@@ -29,7 +27,6 @@ async function playGameRound() {
 
       const timeElapsed = Date.now() - firstUpdate;
       if (timeElapsed >= interval) {
-        lastTick += interval;
         firstUpdate += timeElapsed;
       }
 
@@ -43,8 +40,8 @@ async function playGameRound() {
 async function watchGameRound() {
   console.log("Watching you");
   const interval = 10000; // 10 seconds
-
-  while (true) {
+  const game = true;
+  while (game) {
     const now = new Date();
 
     const round = await Round.findOne({
@@ -54,15 +51,11 @@ async function watchGameRound() {
 
     if (round) {
       await round.updateOne({ active: true });
-      // await Team.clearCapturedStations();
-      //TODO: FIX THIS
+      await Team.clear_captured_stations();
     }
 
     const activeRound = await Round.findOne({ active: true });
     if (activeRound) {
-      //Thirdgift.updateRoundTime();
-      //Thirdgift.setActiveStations();
-
       let lastTick = Date.now();
 
       while (Date.now() < activeRound.endtime.getTime()) {
@@ -70,18 +63,18 @@ async function watchGameRound() {
 
         for (const team of teams) {
           for (const station of team.stations) {
-            if ((1 << (station.bit_id - 1)) & activeRound.stations) {
+            if (activeRound.test_station.includes(station.bit_id)) {
               team.score += station.boost;
             }
           }
+
           await team.save();
-          //Thirdgift.updateTeamScore(team);
         }
 
         const timeElapsed = Date.now() - lastTick;
         if (timeElapsed >= interval) {
           lastTick += interval;
-          //Thirdgift.setActiveStations();
+
           console.log("tick");
         }
 
@@ -89,8 +82,6 @@ async function watchGameRound() {
       }
 
       await activeRound.updateOne({ active: false });
-      //Thirdgift.updateRoundTime();
-      //Thirdgift.setActiveStations();
       console.log("Round ended");
     }
 
