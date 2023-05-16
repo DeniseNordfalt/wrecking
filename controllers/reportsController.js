@@ -48,40 +48,41 @@ const setOwner = async (req, res) => {
     const inputString = req.query.key;
     const pairs = inputString.split(";");
     key = pairs[0];
-    owner = pairs[1].split("=")[1];
+    const ownerPair = pairs[1].split("=");
+    const checkNumber = parseInt(ownerPair[1]);
+    if (isNaN(checkNumber) === false && checkNumber >= 1 && checkNumber <= 4) {
+      owner = ownerPair[1];
+    } else {
+      res.status(400).send("Bad request");
+      return;
+    }
     //DEBUG ENDS HERE
 
     //find the right station
     if (parseInt(id) >= 1 && parseInt(id) <= 4) {
       station = await Station.findOne({ bit_id: id });
-    } else if (mongoose.isValidObjectId(id)) {
-      station = await Station.findById(id);
-    }
-
-    if (!station) {
+    } else {
       res.status(404).send("Station not found");
       return;
     }
 
-    if (owner == 0 || owner === "undefined" || owner === "null" || !owner) {
-      station.owner = null;
-    }
-
-    if (owner !== null) {
+    if (owner) {
       const team = await Team.findOne({ team_id: owner });
-      if (!team) {
-        res.status(400).end();
-        return;
+      const allTeams = await Team.find({});
+
+      console.log(station);
+
+      for (const team of allTeams) {
+        await team.remove_station(station);
       }
+
       station.team = team._id;
       station.under_capture = false;
       station.owner = owner;
 
       await station.save();
 
-      team.captured_stations.push(station.bit_id);
       team.stations.push(station._id);
-
       await team.check_capture_bonus(station.bit_id);
       await team.save();
 

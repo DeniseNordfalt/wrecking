@@ -18,12 +18,20 @@ teamSchema.statics.clear_captured_stations = async function () {
 
 teamSchema.methods.check_capture_bonus = async function (station) {
   if (this.captured_stations.includes(station)) {
+    console.log("Station already captured");
     return;
   }
+  console.log("Station captured");
 
   this.captured_stations.push(station);
   this.score += 10000;
 
+  await this.save();
+};
+
+teamSchema.methods.remove_station = async function (station) {
+  this.stations.pull(station._id);
+  this.captured_stations.pull(station.bit_id);
   await this.save();
 };
 
