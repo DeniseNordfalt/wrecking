@@ -34,7 +34,10 @@ stationSchema.methods.active = async function () {
     .exec();
   if (activeRound) {
     // bit shift the station id to the left by 1, then bitwise AND it with the activeRound.stations
-    return ((1 << (this.id - 1)) & activeRound.stations) === 1 << (this.id - 1);
+    return (
+      ((1 << (this.bit_id - 1)) & activeRound.stations) ===
+      1 << (this.bit_id - 1)
+    );
   } else {
     return false;
   }
@@ -43,30 +46,3 @@ stationSchema.methods.active = async function () {
 const Station = model("Station", stationSchema);
 
 export default Station;
-
-// const mongoose = require("mongoose");
-
-// const StationSchema = new mongoose.Schema({
-//   team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
-// });
-
-// StationSchema.methods.owner = function () {
-//   return this.team ? this.team.name : undefined;
-// };
-
-// StationSchema.methods.active = async function () {
-//   const Round = mongoose.model("Round");
-//   const activeRound = await Round.findOne({ active: true }).sort({
-//     created_at: -1,
-//   });
-//   if (activeRound) {
-//     const mask = 1 << (this._id - 1);
-//     return (mask & activeRound.stations) === mask;
-//   } else {
-//     return false;
-//   }
-// };
-
-// const Station = mongoose.model("Station", StationSchema);
-
-// module.exports = Station;
