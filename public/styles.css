@@ -68,18 +68,20 @@ color: var(--primary-color);
 height: 60px;
 display: flex;
 align-items: center;
-
+justify-content: space-between;
 
 }
 
-nav ul{
+ nav ul{
   list-style: none;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 80%;
   margin: 0 auto;
+  padding: 0 10%;
+  width: 100%;
+
 }
 /* NAV "BUTTON" */
 nav input[type="submit"]{
@@ -88,7 +90,6 @@ nav input[type="submit"]{
   font-family: "Chinese Rocks rg";
   color: var(--secondary-color);
   background-color: var(--primary-color);
-  margin: 0 10px;
   font-size: 20px;
   box-shadow: 2px 2px 5px var(--bbr-background);
 
@@ -140,15 +141,69 @@ table td{
 
 
 
-/* FORM */
+/* LOGIN FORM */
 
-form{
+.login form{
   margin: 0 auto;
   width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.login form h2{
+  font-size: 2em;
+  margin-bottom: 40px;
+  margin-top: 20px;
+  text-transform: uppercase;
+  font-family: "Chinese Rocks Rg", sans-serif;
+  color: #ff7200;
+  
+}
+
+.login form input[type="text"], .login form input[type="password"], .login form input[type="number"]{
+  padding: 10px;
+  border-radius: 5px;
+ 
+  box-shadow: 2px 2px 5px var(--bbr-background);
+}
+
+.login form input[type="submit"]{
+  padding: 10px;
+  border-radius: 5px;
+  font-family: "Chinese Rocks rg";
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+  margin: 10px 10px;
+  font-size: 20px;
+  box-shadow: 2px 2px 5px var(--bbr-background);
+}
+
+.login form input[type="submit"]:hover{
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+
+.login form input[type="submit"]:focus{
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+ 
+}
+
+#signin {
+ margin-left: 85%;;
+}
+
+
+/* APPLICATION FORMS */
+
+form{
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
 }
 form h2{
   font-size: 2em;
@@ -160,20 +215,20 @@ form h2{
   
 }
 
-form input[type="text"], form input[type="password"], form input[type="number"]{
-  padding: 10px;
+form input[type="text"], form input[type="password"], form input[type="number"], form input[type="datetime-local"]{
+  padding: 20px;
   border-radius: 5px;
- 
+  font-size: large;
   box-shadow: 2px 2px 5px var(--bbr-background);
 }
 
 form input[type="submit"]{
-  padding: 10px;
+  padding: 15px;
   border-radius: 5px;
   font-family: "Chinese Rocks rg";
   color: var(--secondary-color);
   background-color: var(--primary-color);
-  margin: 10px 10px;
+  margin: 10px 0;
   font-size: 20px;
   box-shadow: 2px 2px 5px var(--bbr-background);
 }

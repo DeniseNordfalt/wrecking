@@ -30,12 +30,6 @@
 
       <td><a href="/rounds/<%= round._id %>">Show</a></td>
       <td><a href="/rounds/<%= round._id %>/edit">Edit</a></td>
-      <td>
-        <form action="/rounds/<%= round._id %>/reset" method="post">
-          <input type="hidden" name="_method" value="put" />
-          <input type="submit" value="Reset" />
-        </form>
-      </td>
     </tr>
     <% }); %>
   </tbody>
@@ -43,7 +37,10 @@
 
 <br />
 
+<h2>Create a new round</h2>
 <form method="POST" action="/rounds">
+  <label for="name">Name</label><br />
+  <input type="text" id="name" name="name" /><br />
   <label for="starttime">Start time</label><br />
   <input
     type="datetime-local"
@@ -59,14 +56,7 @@
     value="<%= new Date().toISOString().slice(0, -8) + '00:00' %>"
   /><br />
 
-  <label for="round_stations">Active stations:</label><br />
-  <select id="round_stations" name="round.stations" multiple>
-    <% stations.forEach(station => { %>
-    <option value="<%= station._id %>"><%= station.location %></option>
-    <% }); %>
+  <input type="hidden" name="id" value="<%= rounds.length + 1 %>" />
 
   <input type="submit" value="Submit" />
 </form>
-
-<!-- 
-<a href="/rounds/new">New Round</a> -->

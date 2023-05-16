@@ -1,20 +1,22 @@
 <%- include("../layouts/partials/header") %>
 
 <br />
-<form action="/login" method="post">
-  <div>
-    <h2>Login</h2>
-  </div>
-  <div>
-    <label for="email">Email</label><br />
-    <input id="email" name="email" type="text" />
-  </div>
-  <div>
-    <label for="password">Password</label><br />
-    <input id="password" name="password" type="password" />
-  </div>
-  <br />
-  <div>
-    <input type="submit" value="Login" />
-  </div>
-</form>
+<div class="login">
+  <form action="/login" method="post">
+    <div>
+      <h2>Login</h2>
+    </div>
+    <div>
+      <label for="email">Email</label><br />
+      <input id="email" name="email" type="text" />
+    </div>
+    <div>
+      <label for="password">Password</label><br />
+      <input id="password" name="password" type="password" />
+    </div>
+    <br />
+    <div>
+      <input type="submit" value="Login" />
+    </div>
+  </form>
+</div>

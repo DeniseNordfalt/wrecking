@@ -44,7 +44,18 @@ roundRoutes.get("/:id/edit", async (req, res) => {
 
   try {
     const round = await Round.findById(id);
-    res.send(round);
+    // res.send(round);
+    res.format({
+      "text/html": () => {
+        res.render("rounds/edit", { round: round });
+      },
+      "application/json": () => {
+        res.send({ round: round });
+      },
+      default: () => {
+        res.status(406).send("Not Acceptable");
+      },
+    });
   } catch (error) {
     res.status(404).send("Round not found");
   }

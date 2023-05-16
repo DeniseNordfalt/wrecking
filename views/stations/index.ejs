@@ -8,7 +8,6 @@
       <th>Location</th>
       <th>Owner</th>
       <th>Boost</th>
-      <th>Active</th>
       <th>Lifesign</th>
       <th colspan="3"></th>
     </tr>
@@ -20,13 +19,6 @@
       <td><%= station.location %></td>
       <td><%= station.team ? station.team.name : "Unclaimed" %></td>
       <td><%= station.boost %></td>
-      <td>
-        <% if (station.active()) { %>
-        <span style="color: green">Active</span>
-        <% } else { %>
-        <span style="color: red">Inactive</span>
-        <% } %>
-      </td>
       <td><%= station.latest_com ? station.latest_com : "-" %></td>
       <td><a href="/stations/<%= station._id %>">Show</a></td>
     </tr>
