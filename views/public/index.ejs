@@ -38,12 +38,18 @@
       <th>Station</th>
       <th>Owner</th>
       <th>Boost</th>
+      <th>Under Capture?</th>
+      <th>Last Com</th>
     </tr>
     <% stations.forEach(function(station) { %>
     <tr>
       <td><%= station.location %></td>
       <td><%= station.team ? station.team.name : "Unclaimed" %></td>
       <td><%= station.boost %></td>
+      <td style="color: <%= station.under_capture ? 'green' : 'red' %>">
+        <%= station.under_capture ? "Yes" : "No" %>
+      </td>
+      <td><%= station.latest_com %></td>
     </tr>
     <% }); %>
   </table>

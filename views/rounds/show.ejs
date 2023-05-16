@@ -1,22 +1,27 @@
+<%- include('../layouts/partials/header') %>
 <p>
   <strong>Name:</strong>
-  <%= @round.name %>
+  <%= round.name %>
 </p>
 
 <p>
   <strong>Active:</strong>
-  <%= @round.active %>
+  <%= round.active %>
+</p>
+
+<p>
+  <strong>Starttime:</strong>
+  <%= round.starttime %>
 </p>
 
 <p>
   <strong>Endtime:</strong>
-  <%= @round.endtime %>
+  <%= round.endtime %>
 </p>
 
-<p>
-  <strong>Score:</strong>
-  <%= @round.score %>
-</p>
 
-<a href="<%= edit_round_path(@round) %>">Edit</a> |
-<a href="<%= rounds_path %>">Back</a>
+
+  <a href="/stations/<%= round._id %>/edit">Edit</a>
+  |
+  <a href="/rounds">Back</a>
+</table>

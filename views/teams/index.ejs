@@ -19,7 +19,7 @@
       <td><%= team.name %></td>
       <td><%= (team.score / 100.0).toFixed() %></td>
       <td><%= team.shortName %></td>
-      <td><%= team.captured_stations.join(',') %></td>
+      <td><%= team.stations.join(',') %></td>
       <td><a href="/teams/<%= team._id %>">Show</a></td>
       <td><a href="/teams/<%= team._id %>/edit">Edit</a></td>
       <td>

@@ -27,7 +27,7 @@
         <span style="color: red">Inactive</span>
         <% } %>
       </td>
-      <td><%= station.lifesign ? station.lifesign : "-" %></td>
+      <td><%= station.latest_com ? station.latest_com : "-" %></td>
       <td><a href="/stations/<%= station._id %>">Show</a></td>
     </tr>
     <% }); %>

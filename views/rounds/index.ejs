@@ -26,8 +26,8 @@
       </td>
       <td><%= round.starttime %></td>
       <td><%= round.endtime %></td>
-      <td><%= round.remaining %></td>
-      <!-- TODO: Fix the remaining time function -->
+      <td><%= round.remaining() %></td>
+
       <td><a href="/rounds/<%= round._id %>">Show</a></td>
       <td><a href="/rounds/<%= round._id %>/edit">Edit</a></td>
       <td>
@@ -44,20 +44,29 @@
 <br />
 
 <form method="POST" action="/rounds">
-  <label for="round_starttime">Start time</label><br />
-  <input type="date" id="round_starttime" name="round.starttime" /><br />
+  <label for="starttime">Start time</label><br />
   <input
     type="datetime-local"
-    id="round_starttime_time"
-    name="round.starttime"
-    step="300"
+    id="starttime"
+    name="starttime"
     value="<%= new Date().toISOString().slice(0, -8) + '00:00' %>"
   /><br />
-  <label for="round_length">Length</label>
-  <input type="text" id="round_length" name="round.length" /><br />
+  <label for="endtime">End time</label><br />
+  <input
+    type="datetime-local"
+    id="endtime"
+    name="endtime"
+    value="<%= new Date().toISOString().slice(0, -8) + '00:00' %>"
+  /><br />
+
   <label for="round_stations">Active stations:</label><br />
+  <select id="round_stations" name="round.stations" multiple>
+    <% stations.forEach(station => { %>
+    <option value="<%= station._id %>"><%= station.location %></option>
+    <% }); %>
 
   <input type="submit" value="Submit" />
 </form>
 
-<a href="/rounds/new">New Round</a>
+<!-- 
+<a href="/rounds/new">New Round</a> -->
