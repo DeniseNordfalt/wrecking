@@ -19,12 +19,16 @@ import userRoutes from "./userRoutes.js";
 import authenticateUser from "../middlewares/authenticateUser.js";
 import responseFormatter from "../middlewares/responseFormatter.js";
 
+import methodOverride from "method-override";
+
 const routes = Router();
+
+routes.use(methodOverride("_method"));
 
 routes.get("/", async (req, res, next) => {
   try {
     const [stations, teams, [activeRound], comingRounds] = await Promise.all([
-      Station.find(),
+      Station.find().populate("team"),
       Team.find(),
       Round.find({ active: true }).sort({ endtime: "desc" }).limit(1),
       Round.find({ active: false, starttime: { $gt: new Date() } }).sort({
@@ -40,67 +44,8 @@ routes.get("/", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-
-  /*Promise.all([
-    Station.find(),
-    Team.find(),
-    Round.find({ active: true }).sort({ endtime: "desc" }).limit(1),
-    Round.find({ active: false, starttime: { $gt: new Date() } }).sort({
-      starttime: "asc",
-    }),
-  ])
-    .then(([stations, teams, [activeRound], comingRounds]) => {
-      res.render("public/index", {
-        stations,
-        teams,
-        activeRound,
-        comingRounds,
-      });
-      //res.send({ stations, teams, activeRound, comingRounds });
-    })
-    .catch(next);*/
 });
-
-routes.get("/public", function (req, res) {
-  // handle request for public page
-  res.send("public");
-});
-
-routes.get("/login", function (req, res) {
-  // handle request for login page
-
-  // res.render("users/login.ejs", { user: new User() });
-  res.render("sessions/new.ejs", { user: new User(), error: "" });
-});
-
-routes.post("/login", async function (req, res) {
-  const { email, password } = req.body;
-  console.log("email: " + email);
-  console.log("password: " + password);
-
-  try {
-    const user = await User.login(email, password);
-    console.log("user: " + user);
-    req.session.userId = user._id;
-
-    res.redirect("/");
-  } catch (err) {
-    console.error(err);
-    res.render("sessions/new.ejs", { user: req.body, error: err.message });
-  }
-});
-
-routes.delete("/logout", function (req, res) {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error(err);
-    }
-    console.log("logout");
-    res.redirect("/");
-  });
-});
-
-routes.get("/test", authenticateUser, (req, res) => {
+routes.get("/test", (req, res) => {
   res.format({
     "text/html"() {
       res.render("test/index.ejs", { message: "test" });
@@ -111,6 +56,44 @@ routes.get("/test", authenticateUser, (req, res) => {
     default() {
       res.status(406).send("Not Acceptable");
     },
+  });
+});
+
+routes.post("/test", (req, res) => {
+  res.send("post");
+});
+
+routes.patch("/test", (req, res) => {
+  res.send("patch");
+});
+
+routes.get("/public", function (req, res) {
+  res.send("public");
+});
+
+routes.get("/login", function (req, res) {
+  res.render("sessions/new.ejs", { user: new User(), error: "" });
+});
+
+routes.post("/login", async function (req, res) {
+  const { email, password } = req.body;
+  try {
+    const user = await User.login(email, password);
+    req.session.userId = user._id;
+
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    res.render("sessions/new.ejs", { user: req.body, error: err.message });
+  }
+});
+
+routes.get("/logout", function (req, res) {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+    }
+    res.redirect("/");
   });
 });
 
