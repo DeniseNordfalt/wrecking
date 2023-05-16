@@ -9,6 +9,7 @@ const roundSchema = new Schema({
   endtime: { type: Date, required: true },
   score: { type: String, Text: true },
   stations: { type: Number, default: 15 },
+  test_station: { type: [Number], default: [1, 2, 3, 4] },
 
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
