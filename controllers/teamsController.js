@@ -57,12 +57,11 @@ const createTeam = async (req, res) => {
 
 const updateTeam = async (req, res) => {
   try {
-    //TODO: change to bit_id or change id to numbers
     const team = await Team.findById(req.params.id);
     if (!team) {
       return res.status(404).send("Team not found");
     }
-    const { name, colour, shortName } = req.body;
+    const { name, colour, shortName, score } = req.body;
     if (name) {
       team.name = name;
     }
@@ -72,8 +71,22 @@ const updateTeam = async (req, res) => {
     if (shortName) {
       team.shortName = shortName;
     }
+    if (score) {
+      team.score = score;
+    }
     await team.save();
-    await res.send(team);
+    // await res.send(team);
+    res.format({
+      "text/html": () => {
+        res.redirect(`/teams/${team._id}`);
+      },
+      "application/json": () => {
+        res.status(200).send(team);
+      },
+      default: () => {
+        res.status(406).send("Not Acceptable");
+      },
+    });
   } catch (error) {
     res.status(400).send("Team could not be updated" + error);
   }
@@ -111,7 +124,17 @@ const resetTeam = async (req, res) => {
     }
     team.score = 0;
     await team.save();
-    res.status(200).send("Team reset");
+    res.format({
+      "text/html": () => {
+        res.redirect(`/teams`);
+      },
+      "application/json": () => {
+        res.status(200).send(team);
+      },
+      default: () => {
+        res.status(406).send("Not Acceptable");
+      },
+    });
   } catch (error) {
     res.status(400).send("Team could not be reset");
   }
