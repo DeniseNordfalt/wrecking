@@ -1,9 +1,5 @@
 import { Router } from "express";
 import Station from "../models/station.js";
-import Team from "../models/team.js";
-import Round from "../models/round.js";
-import CalibrationCode from "../models/calibration_code.js";
-import mongoose from "mongoose";
 
 import {
   getOwner,
@@ -14,6 +10,7 @@ import {
 } from "../controllers/reportsController.js";
 
 import verifyPasskey from "../middlewares/verifyPasskey.js";
+import reportCom from "../middlewares/reportCom.js";
 
 const reportRoutes = Router();
 
@@ -25,24 +22,23 @@ const reportRoutes = Router();
 // Reports
 
 // SET STATION OWNER
-reportRoutes.get("/:station/so", verifyPasskey, setOwner);
+reportRoutes.get("/:station/so", verifyPasskey, reportCom, setOwner);
 
 // GET STATION BOOST
-reportRoutes.get("/:station/gb", getBoost);
+reportRoutes.get("/:station/gb", reportCom, getBoost);
 
 // GET OWNER
-reportRoutes.get("/:id/go", getOwner);
+reportRoutes.get("/:station/go", reportCom, getOwner);
 
 // GET TIME TO START
-reportRoutes.get("/:station/tts", getTimeToStart);
+reportRoutes.get("/:station/tts", reportCom, getTimeToStart);
 
 // UNDER CAPTURE
-reportRoutes.get("/:station/uc", underCapture);
+reportRoutes.get("/:station/uc", reportCom, underCapture);
 
 /////////////////////////////////////////////////////////////
 
 reportRoutes.get("/", (req, res) => {
-  /* ... */
   res.send("reports index");
 });
 
