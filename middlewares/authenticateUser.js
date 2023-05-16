@@ -1,11 +1,10 @@
 import User from "../models/user.js";
 
-const authenticateUser = (req, res, next) => {
+const authenticateUser = async (req, res, next) => {
   if (req.session.userId) {
     try {
       const user = User.findById(req.session.userId);
       if (user) {
-        console.log("user authenticated");
         next();
       } else {
         req.session.message = "Please login to access this page.";
