@@ -1,9 +1,10 @@
 import Station from "../models/station.js";
+import Team from "../models/team.js";
 import mongoose from "mongoose";
 
 const getStations = async (req, res) => {
   try {
-    const stations = await Station.find();
+    const stations = await Station.find().populate("team");
 
     res.format({
       "text/html"() {
@@ -28,9 +29,9 @@ const getStationById = async (req, res) => {
     let station;
 
     if (parseInt(id) >= 1 && parseInt(id) <= 4) {
-      station = await Station.findOne({ bit_id: id });
+      station = await Station.findOne({ bit_id: id }).populate("team");
     } else if (mongoose.isValidObjectId(id)) {
-      station = await Station.findById(id);
+      station = await Station.findById(id).populate("team");
     }
 
     if (!station) {
@@ -94,6 +95,13 @@ const updateStation = async (req, res) => {
     }
     if (team) {
       station.team = team;
+      const owner = await Team.findById(team);
+      station.owner = owner.team_id;
+
+      owner.captured_stations.push(station.bit_id);
+      owner.stations.push(station._id);
+
+      await owner.save();
     }
     if (boost) {
       station.boost = boost;
@@ -106,7 +114,18 @@ const updateStation = async (req, res) => {
     }
 
     await station.save();
-    res.status(200).send({ station: station });
+    // res.status(200).send({ station: station });
+    res.format({
+      "text/html"() {
+        res.redirect(`/stations/${station._id}`);
+      },
+      "application/json"() {
+        res.send({ station: station });
+      },
+      default() {
+        res.status(406).send("Not Acceptable");
+      },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error");
@@ -143,7 +162,6 @@ const deleteStation = async (req, res) => {
 
 const editStation = async (req, res) => {
   const id = req.params.id;
-
   let station;
 
   if (parseInt(id) >= 1 && parseInt(id) <= 4) {
@@ -152,13 +170,15 @@ const editStation = async (req, res) => {
     station = await Station.findById(id);
   }
 
+  const teams = await Team.find();
+
   if (!station) {
     res.status(404).send("Station not found");
     return;
   }
 
   try {
-    res.render("stations/edit", { station });
+    res.render("stations/edit", { station, teams });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal server error" + error);
@@ -170,19 +190,19 @@ const editStation = async (req, res) => {
 // middleware functions
 
 //TODO: Implement the following middleware functions
-const setStation = async (req, res, next) => {
-  try {
-    const station = await Station.findById(req.params.id);
-    if (!station) {
-      return res.status(404).send("Station not found");
-    }
-    req.station = station;
-    next();
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal server error");
-  }
-};
+// const setStation = async (req, res, next) => {
+//   try {
+//     const station = await Station.findById(req.params.id);
+//     if (!station) {
+//       return res.status(404).send("Station not found");
+//     }
+//     req.station = station;
+//     next();
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Internal server error");
+//   }
+// };
 
 const resetStation = async (req, res) => {
   const id = req.params.id;
