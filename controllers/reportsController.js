@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 const getOwner = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id = req.params.station;
     let station;
 
     //find the right station
@@ -79,7 +79,11 @@ const setOwner = async (req, res) => {
 
       await station.save();
 
+      team.captured_stations.push(station.bit_id);
+      team.stations.push(station._id);
+
       await team.check_capture_bonus(station.bit_id);
+      await team.save();
 
       res.status(202).send(`Ok`);
     } else {
