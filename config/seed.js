@@ -11,25 +11,17 @@ export const seed = async () => {
   ];
 
   const teams = [
-    { name: "Chaos", shortName: "666", colour: "FF0000", team_id: 1 },
-    { name: "Cyberkomm", shortName: "CYB", colour: "003CFF", team_id: 2 },
-    { name: "Klustret", shortName: "CLU", colour: "B300FF", team_id: 3 },
-    { name: "Hjortkloe", shortName: "HKM", colour: "FFBF00", team_id: 4 },
+    { name: "The Cluster", shortName: "CLU", colour: "A020F0", team_id: 1 },
+    { name: "Jofa Family", shortName: "NHL", colour: "90EE90", team_id: 2 },
+    { name: "SnapphaneKlan", shortName: "SHK", colour: "FF0000", team_id: 3 },
+    { name: "403", shortName: "403", colour: "0000FF", team_id: 4 },
   ];
 
   const calibrationCodes = [
-    { code: "123456", owner: "test", stationId: "6446a02b97cffc328a382a78" },
-    { code: "654321", owner: "test", stationId: "6446a02b97cffc328a382a78" },
-    { code: "111111", owner: "test", stationId: "6446a02b97cffc328a382a78" },
-    { code: "222222", owner: "test", stationId: "6446a02b97cffc328a382a78" },
-    { code: "333333", owner: "test", stationId: "6446a02b97cffc328a382a7a" },
-    { code: "444444", owner: "test", stationId: "6446a02b97cffc328a382a7a" },
-    { code: "555555", owner: "test", stationId: "6446a02b97cffc328a382a7a" },
-    { code: "666666", owner: "test", stationId: "6446a02b97cffc328a382a7a" },
-    { code: "777777", owner: "test", stationId: "6446a02b97cffc328a382a7c" },
-    { code: "888888", owner: "test", stationId: "6446a02b97cffc328a382a7c" },
-    { code: "999999", owner: "test", stationId: "6446a02b97cffc328a382a7c" },
-    { code: "000000", owner: "test", stationId: "6446a02b97cffc328a382a7c" },
+    { code: "123456", owner: "test", stationId: "1" },
+    { code: "654321", owner: "test", stationId: "2" },
+    { code: "111111", owner: "test", stationId: "3" },
+    { code: "222222", owner: "test", stationId: "4" },
   ];
 
   const stationPromises = stations.map(async (station) => {
@@ -41,7 +33,8 @@ export const seed = async () => {
     }
   });
   const teamPromises = teams.map(async (team) => {
-    const existingTeam = await Team.findOne({ team_id: team.team_id });
+    const existingTeam = await Team.findOne({ name: team.name });
+
     if (!existingTeam) {
       await Team.create(team);
     }
@@ -61,4 +54,6 @@ export const seed = async () => {
     ...teamPromises,
     ...calibrationCodePromises,
   ]);
+
+  console.log("Seeding complete");
 };
