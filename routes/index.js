@@ -8,7 +8,6 @@ import resetRoutes from "./resetRoutes.js";
 import stationRoutes from "./stationRoutes.js";
 import teamRoutes from "./teamRoutes.js";
 
-import codeRoutes from "./codeRoutes.js";
 import reportRoutes from "./reportRoutes.js";
 
 import roundRoutes from "./roundRoutes.js";
@@ -17,7 +16,7 @@ import publicRoutes from "./publicRoutes.js";
 import userRoutes from "./userRoutes.js";
 
 import authenticateUser from "../middlewares/authenticateUser.js";
-import responseFormatter from "../middlewares/responseFormatter.js";
+//import responseFormatter from "../middlewares/responseFormatter.js";
 
 import methodOverride from "method-override";
 
@@ -103,7 +102,6 @@ routes.use("/rounds", authenticateUser, roundRoutes);
 routes.use("/reset", authenticateUser, resetRoutes);
 routes.use("/stations", authenticateUser, stationRoutes);
 routes.use("/teams", authenticateUser, teamRoutes);
-routes.use("/calibration_codes", codeRoutes);
 routes.use("/reports", reportRoutes);
 routes.use("/users", userRoutes);
 

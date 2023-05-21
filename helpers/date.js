@@ -1,7 +1,6 @@
 // export const setupRoutes = (app) => {
 //     app.use("/api", api);
 //     app.use("/api", reports);
-//     app.use("/api", thirdgift);
 //     app.use("/api", reset);
 //     }
 
