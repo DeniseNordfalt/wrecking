@@ -1,6 +1,5 @@
 import Team from "../models/team.js";
 import Station from "../models/station.js";
-import CalibrationCode from "../models/calibration_code.js";
 
 export const seed = async () => {
   const stations = [
@@ -15,13 +14,6 @@ export const seed = async () => {
     { name: "Jofa Family", shortName: "NHL", colour: "90EE90", team_id: 2 },
     { name: "SnapphaneKlan", shortName: "SHK", colour: "FF0000", team_id: 3 },
     { name: "403", shortName: "403", colour: "0000FF", team_id: 4 },
-  ];
-
-  const calibrationCodes = [
-    { code: "123456", owner: "test", stationId: "1" },
-    { code: "654321", owner: "test", stationId: "2" },
-    { code: "111111", owner: "test", stationId: "3" },
-    { code: "222222", owner: "test", stationId: "4" },
   ];
 
   const stationPromises = stations.map(async (station) => {
@@ -40,20 +32,7 @@ export const seed = async () => {
     }
   });
 
-  const calibrationCodePromises = calibrationCodes.map(async (code) => {
-    const existingCode = await CalibrationCode.findOne({
-      code: code.code,
-    });
-    if (!existingCode) {
-      await CalibrationCode.create(code);
-    }
-  });
-
-  await Promise.all([
-    ...stationPromises,
-    ...teamPromises,
-    ...calibrationCodePromises,
-  ]);
+  await Promise.all([...stationPromises, ...teamPromises]);
 
   console.log("Seeding complete");
 };
