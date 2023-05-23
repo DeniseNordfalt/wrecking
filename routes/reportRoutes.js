@@ -14,11 +14,6 @@ import reportCom from "../middlewares/reportCom.js";
 
 const reportRoutes = Router();
 
-//RUBY CODE
-// skip_before_filter  :verify_authenticity_token
-// before_action :verify_passkey, only: [:set_owner, :set_boost, :verify_calibration_code, :submit_calibration_code, :set_mission]
-// after_action :report_com, only: [:get_boost, :set_owner, :get_station_time_to_start]
-
 // Reports
 
 // SET STATION OWNER

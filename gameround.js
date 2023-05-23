@@ -44,6 +44,7 @@ async function watchGameRound() {
   while (game) {
     const now = new Date();
 
+    //finds the round that is active
     const round = await Round.findOne({
       starttime: { $lte: now },
       endtime: { $gte: now },
@@ -54,6 +55,7 @@ async function watchGameRound() {
       await Team.clear_captured_stations();
     }
 
+    //if active round, start the game
     const activeRound = await Round.findOne({ active: true });
     if (activeRound) {
       let lastTick = Date.now();

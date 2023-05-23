@@ -4,7 +4,6 @@ import Station from "../models/station.js";
 import Team from "../models/team.js";
 import Round from "../models/round.js";
 
-import resetRoutes from "./resetRoutes.js";
 import stationRoutes from "./stationRoutes.js";
 import teamRoutes from "./teamRoutes.js";
 
@@ -15,7 +14,6 @@ import adminRoutes from "./adminRoutes.js";
 import userRoutes from "./userRoutes.js";
 
 import authenticateUser from "../middlewares/authenticateUser.js";
-//import responseFormatter from "../middlewares/responseFormatter.js";
 
 import methodOverride from "method-override";
 
@@ -72,7 +70,6 @@ routes.get("/logout", function (req, res) {
 
 routes.use("/admin", adminRoutes);
 routes.use("/rounds", authenticateUser, roundRoutes);
-routes.use("/reset", authenticateUser, resetRoutes);
 routes.use("/stations", authenticateUser, stationRoutes);
 routes.use("/teams", authenticateUser, teamRoutes);
 routes.use("/reports", reportRoutes);

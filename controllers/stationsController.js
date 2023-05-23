@@ -185,25 +185,6 @@ const editStation = async (req, res) => {
   }
 };
 
-////////////////////////////////////////////////////////
-
-// middleware functions
-
-//TODO: Implement the following middleware functions
-// const setStation = async (req, res, next) => {
-//   try {
-//     const station = await Station.findById(req.params.id);
-//     if (!station) {
-//       return res.status(404).send("Station not found");
-//     }
-//     req.station = station;
-//     next();
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Internal server error");
-//   }
-// };
-
 const resetStation = async (req, res) => {
   const id = req.params.id;
   let station;
@@ -221,20 +202,6 @@ const resetStation = async (req, res) => {
     res.status(404).send("Station not found");
     return;
   }
-
-  //TODO: FIX THIS
-  /*let station;
-  if (mongoose.isValidObjectId(id)) {
-    station = await Station.findById(id);
-  }
-  station.team = null;
-  station.boost = 100;
-  station.under_capture = false;
-  station.reward = 100;
-
-  await station.save();
-
-  res.send(station);*/
 };
 
 export {
