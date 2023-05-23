@@ -11,9 +11,7 @@
   - [Introduction](#introduction)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [API](#api)
   - [Tech](#tech)
-  - [To Do](#to-do)
   - [Database](#database)
   - [Routes](#routes)
   - [Models](#models)
@@ -21,14 +19,13 @@
   - [Middleware](#middleware)
   - [Views](#views)
   - [Public](#public)
-  - [Tests](#tests)
   - [Other files](#other-files)
-- [API](#api-1)
+- [API](#api)
   - [Teams](#teams)
   - [Stations](#stations)
   - [Reports](#reports)
-  - [Round](#round)
-
+  - [Rounds](#rounds)
+- [To Do](#to-do)
 
 ## Introduction
 Wrecking is a web application for Blodsband Reloaded. It is used to manage the game 'Wrecking'. It is also used to report the results of the game.
@@ -38,11 +35,12 @@ To install the project, you need to have Node.js and npm installed on your compu
 
 
 1. Clone the repository
-2. Install the dependencies
+2. Install the dependencies by running `npm install` in the root folder
 3. Create a `.env` file in the root folder
 4. Set the `MONGODB_URI` environment variable to the connection string of your database
 5. Set the `PORT` environment variable to the port you want the server to run on
 6. Set the `submit_password` environment variable to a secret string
+7. Set the `SESSION_SECRET` environment variable to a secret string
 
 
 ## Usage
@@ -51,17 +49,11 @@ To run the project, run `npm start` in the root folder.
 
 To run the project in development mode, run `npm run dev` in the root folder.
 
-## API
-
+server.js is the main file that runs the server. 
 
 ## Tech
+Some routes and endpoints are only reachable by the LANTERNs (or Postman)
 
-## To Do
-
-[]: # Path: README.md
-
-
-server.js is the main file that runs the server. 
 
 ## Database
 
@@ -81,10 +73,12 @@ Every route is defined in a separate file, then imported to index.js in the `rou
 ## Models
 
 The models are defined in the `models` folder. 
+Mongoose is used to define the schemas and models.
 
 ## Controllers
 
 The controllers are defined in the `controllers` folder.
+The controllers are responsible for handling the logic between the routes and the models.
 
 ## Middleware
 
@@ -100,10 +94,6 @@ Views are rendered using the `ejs` template engine, but for most pages another f
 The public folder contains the static files.
 Mostly the CSS and image files.
 
-## Tests
-
-The tests are defined in the `tests` folder. (Not implemented yet)
-
 ## Other files
 
 `package.json` contains the dependencies and scripts for the project.
@@ -112,11 +102,36 @@ The tests are defined in the `tests` folder. (Not implemented yet)
 # API
 
 ## Teams
+/teams
+/teams/:id
 
 ## Stations
+/stations
+/stations/:id
 
 ## Reports
 Handles the logic between the server and the stations.
+/reports
+/reports/:station/go (set owner)
+/reports/:station/so (get owner)
+/reports/:station/uc (under capture)
+/reports/:station/tts (time to start)
+/reports/:station/gb (game boost)
 
-## Round
+## Rounds
+/rounds
+/rounds/:id
+
+
+# To Do
+
+- [ ] Fix bitwise shift
+- [ ] Update frontend
+- [ ] Add  tests
+- [ ] Connect to thirdgift
+- [ ] Probably 100 other things
+- [ ] Rewrite the whole thing?
+
+
+
 
