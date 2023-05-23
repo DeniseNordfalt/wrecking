@@ -77,7 +77,17 @@ const updateRound = async (req, res) => {
       round.endtime = endtime;
     }
     await round.save();
-    res.direct("/rounds/" + id);
+    res.format({
+      "text/html": () => {
+        res.redirect(`/rounds/${round._id}`);
+      },
+      "application/json": () => {
+        res.send({ round: round });
+      },
+      default: () => {
+        res.status(406).send("Not Acceptable");
+      },
+    });
   } catch (error) {
     res.status(404).send("Round could not be updated");
   }

@@ -4,20 +4,16 @@ import Station from "../models/station.js";
 import Team from "../models/team.js";
 import Round from "../models/round.js";
 
-import resetRoutes from "./resetRoutes.js";
 import stationRoutes from "./stationRoutes.js";
 import teamRoutes from "./teamRoutes.js";
 
-import codeRoutes from "./codeRoutes.js";
 import reportRoutes from "./reportRoutes.js";
 
 import roundRoutes from "./roundRoutes.js";
 import adminRoutes from "./adminRoutes.js";
-import publicRoutes from "./publicRoutes.js";
 import userRoutes from "./userRoutes.js";
 
 import authenticateUser from "../middlewares/authenticateUser.js";
-import responseFormatter from "../middlewares/responseFormatter.js";
 
 import methodOverride from "method-override";
 
@@ -44,31 +40,6 @@ routes.get("/", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
-routes.get("/test", (req, res) => {
-  res.format({
-    "text/html"() {
-      res.render("test/index.ejs", { message: "test" });
-    },
-    "application/json"() {
-      res.send({ message: "test" });
-    },
-    default() {
-      res.status(406).send("Not Acceptable");
-    },
-  });
-});
-
-routes.post("/test", (req, res) => {
-  res.send("post");
-});
-
-routes.patch("/test", (req, res) => {
-  res.send("patch");
-});
-
-routes.get("/public", function (req, res) {
-  res.send("public");
 });
 
 routes.get("/login", function (req, res) {
@@ -98,12 +69,9 @@ routes.get("/logout", function (req, res) {
 });
 
 routes.use("/admin", adminRoutes);
-routes.use("/public", publicRoutes);
 routes.use("/rounds", authenticateUser, roundRoutes);
-routes.use("/reset", authenticateUser, resetRoutes);
 routes.use("/stations", authenticateUser, stationRoutes);
 routes.use("/teams", authenticateUser, teamRoutes);
-routes.use("/calibration_codes", codeRoutes);
 routes.use("/reports", reportRoutes);
 routes.use("/users", userRoutes);
 

@@ -40,14 +40,14 @@ const setOwner = async (req, res) => {
   try {
     const id = req.params.station;
     let station;
-    let key = req.query.key;
+    //let key = req.query.key;
     let owner = req.query.owner;
 
     //DEBUG TO  HANDLE ; IN KEY
     //TODO: REMOVE ; in querystring in arduino
     const inputString = req.query.key;
     const pairs = inputString.split(";");
-    key = pairs[0];
+    //key = pairs[0];
     const ownerPair = pairs[1].split("=");
     const checkNumber = parseInt(ownerPair[1]);
     if (isNaN(checkNumber) === false && checkNumber >= 1 && checkNumber <= 4) {
