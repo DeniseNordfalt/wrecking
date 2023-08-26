@@ -36,4 +36,7 @@ stationRoutes.get("/:id/edit", editStation);
 // PUT stations/:id/reset
 stationRoutes.put("/:id/reset", resetStation);
 
+// TODO: 
+// GET stations/remaining
+
 export default stationRoutes;

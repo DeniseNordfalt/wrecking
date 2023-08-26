@@ -8,9 +8,9 @@ import methodOverride from "method-override";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
-import { setupMongoDb } from "./config/db.js";
+import { setupMongoDb } from "./src/config/db.js";
 import { watchGameRound } from "./gameround.js";
-import router from "./routes/index.js";
+import router from "./src/routes/index.js";
 
 // to be able to use .env file
 dotenv.config();
@@ -65,6 +65,15 @@ app.use(express.static(join(__dirname, "public")));
 //use all the routes from the imported router
 app.use("/", router);
 
+
+
+import {  getIndex } from "./src/controllers/thirdgiftController.js";
+//getUsers()
+getIndex()
+
+
+
+
 //define the port, database and start the server
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1/wrecking";
@@ -75,3 +84,5 @@ app.listen(PORT, () => {
 
   console.log(`Started Express at port ${PORT}`);
 });
+
+export default app;

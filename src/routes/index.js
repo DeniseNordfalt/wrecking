@@ -13,6 +13,8 @@ import roundRoutes from "./roundRoutes.js";
 import adminRoutes from "./adminRoutes.js";
 import userRoutes from "./userRoutes.js";
 
+import calibrationCodeRoutes from "./calibrationCodesRoutes.js";
+
 import authenticateUser from "../middlewares/authenticateUser.js";
 
 import methodOverride from "method-override";
@@ -74,5 +76,6 @@ routes.use("/stations", authenticateUser, stationRoutes);
 routes.use("/teams", authenticateUser, teamRoutes);
 routes.use("/reports", reportRoutes);
 routes.use("/users", userRoutes);
+routes.use("/calibrationcodes", calibrationCodeRoutes);
 
 export default routes;

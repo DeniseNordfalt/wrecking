@@ -1,5 +1,6 @@
-import Round from "./models/round.js";
-import Team from "./models/team.js";
+import Round from "./src/models/round.js";
+import Team from "./src/models/team.js";
+
 
 async function playGameRound() {
   console.log("Let's play a game");
@@ -43,6 +44,8 @@ async function watchGameRound() {
   const game = true;
   while (game) {
     const now = new Date();
+    
+
 
     //finds the round that is active
     const round = await Round.findOne({
@@ -58,6 +61,9 @@ async function watchGameRound() {
     //if active round, start the game
     const activeRound = await Round.findOne({ active: true });
     if (activeRound) {
+      // !thirdgift updateRoundTime
+      // !thirdgift setActiveStations
+   
       let lastTick = Date.now();
 
       while (Date.now() < activeRound.endtime.getTime()) {
@@ -69,7 +75,7 @@ async function watchGameRound() {
               team.score += station.boost;
             }
           }
-
+          // ! updateTeamScore
           await team.save();
         }
 
@@ -84,6 +90,8 @@ async function watchGameRound() {
       }
 
       await activeRound.updateOne({ active: false });
+      //! updateRoundTime
+      //! setActiveStations
       console.log("Round ended");
     }
 
