@@ -2,7 +2,7 @@
 import axios from '../src/axios/axiosConfig.js'
 import { expect } from 'chai';
 
-const url = 'https://terminal.thethirdgift.com/api'
+const url = process.env.THIRDGIFT_BASE_URL
 
 describe('Thirdgift API calls', () => {
 

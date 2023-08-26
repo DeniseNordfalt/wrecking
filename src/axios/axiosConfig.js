@@ -4,9 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 console.log(dotenv.config())
 
-// const baseURL = 'https://icanhazdadjoke.com/';
-//const baseURL = 'https://terminal.thethirdgift.com/'
-const baseURL = 'https://terminal.thethirdgift.com/api'
+const baseURL = process.env.THIRDGIFT_BASE_URL
 const token = process.env.THIRDGIFT_TOKEN
 console.log('token', token)
 

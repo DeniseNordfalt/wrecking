@@ -67,9 +67,9 @@ app.use("/", router);
 
 
 
-import {  getIndex } from "./src/controllers/thirdgiftController.js";
+//import {  getIndex } from "./src/controllers/thirdgiftController.js";
 //getUsers()
-getIndex()
+//getIndex()
 
 
 
