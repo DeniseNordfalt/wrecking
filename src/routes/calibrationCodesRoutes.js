@@ -3,12 +3,65 @@ import CalibrationCode from "../models/calibrationCode.js";
 
 const calibrationCodeRoutes = Router();
 
+/* 
+
+Calibration Codes Controller:
+
+* GET /calibration_codes - Index action (listing calibration codes)
+* DELETE /calibration_codes/:id - Destroy action (deleting a specific calibration code)
+* GET /calibration_codes/active - Custom collection action for active calibration codes
+* GET /calibration_codes/top-list - Custom collection action for top-list calibration codes
+! Put behind authenticate?
+*/
+
+
+
 //GET all calibration codes
 calibrationCodeRoutes.get("/", async (req, res) => {
 const codes = await CalibrationCode.find().sort({createdAt: -1});
 res.json(codes);
-
 });
+
+// DELETE calibration code by id
+calibrationCodeRoutes.delete("/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+        const deletedCode = await CalibrationCode.findByIdAndDelete(id);
+        res.json(deletedCode);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+    });
+
+// GET calibration codes/active
+calibrationCodeRoutes.get("/active", async (req, res) => {
+    const codes = await CalibrationCode.find({completed: false}).sort({createdAt: -1});
+     res.json(codes);
+ });
+
+ // GET calibration codes/top-list
+calibrationCodeRoutes.get("/top-list", async (req, res) => {
+    const codes = await CalibrationCode.aggregate([
+      { $match: { completed: true } },
+      {
+          $group: {
+              _id: '$owner',
+              count: { $sum: 1 },
+          },
+      },
+      { $sort: { count: -1 } }, // Sort by count in descending order
+  ]);
+  
+  const topList = codes.map((code) => ({
+      owner: code._id,
+      count: code.count,
+  }));
+  
+  res.json(topList);
+  });
+
+
+// !!!!!!!!! unnecessary ?
 
 // POST new calibration code
 calibrationCodeRoutes.post("/", async (req, res) => {
@@ -20,46 +73,6 @@ calibrationCodeRoutes.post("/", async (req, res) => {
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
-});
-
-
-// DELETE calibration code by id
-calibrationCodeRoutes.delete("/:id", async (req, res) => {
-const id = req.params.id;
-try {
-    const deletedCode = await CalibrationCode.findByIdAndDelete(id);
-    res.json(deletedCode);
-} catch (error) {
-    res.status(404).json({ message: error.message });
-}
-});
-
-
-// GET calibration codes/active
-calibrationCodeRoutes.get("/active", async (req, res) => {
-   const codes = await CalibrationCode.find({completed: false}).sort({createdAt: -1});
-    res.json(codes);
-});
-
-// GET calibration codes/top-list
-calibrationCodeRoutes.get("/top-list", async (req, res) => {
-  const codes = await CalibrationCode.aggregate([
-    { $match: { completed: true } },
-    {
-        $group: {
-            _id: '$owner',
-            count: { $sum: 1 },
-        },
-    },
-    { $sort: { count: -1 } }, // Sort by count in descending order
-]);
-
-const topList = codes.map((code) => ({
-    owner: code._id,
-    count: code.count,
-}));
-
-res.json(topList);
 });
 
 // PATCH calibration codes/:id
@@ -87,8 +100,5 @@ calibrationCodeRoutes.patch("/:id", async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
-
 
 export default calibrationCodeRoutes;

@@ -1,5 +1,34 @@
 import Team from "../models/team.js";
 
+//INDEX
+// ! implement
+
+//SHOW
+// ! implement
+
+//NEW
+// ! implement
+
+//EDIT
+// ! implement
+
+//RESET
+// ! implement
+
+//CREATE
+// ! implement
+
+//UPDATE
+// ! implement
+
+//DESTROY
+// ! implement
+
+//private SET_TEAM
+//private TEAM_PARAMS
+
+
+
 const getTeamList = async (req, res) => {
   try {
     const teams = await Team.find();

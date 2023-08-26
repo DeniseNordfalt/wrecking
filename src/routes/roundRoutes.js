@@ -11,6 +11,20 @@ import {
 
 const roundRoutes = Router();
 
+/* 
+Rounds Controller:
+
+* GET /rounds - Index action (listing rounds)
+! remove stations from ^^^ ?
+* GET /rounds/:id - Show action (showing a specific round)
+* GET /rounds/:id/edit - Edit action (edit a specific round)
+* PUT /rounds/:id - Update action (update a specific round)
+* POST /rounds - Create action (create a new round) 
+! remove name and id? ^^^
+*/
+
+
+
 // Rounds
 
 // GET /rounds

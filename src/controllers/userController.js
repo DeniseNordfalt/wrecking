@@ -1,5 +1,16 @@
 import User from "../models/user.js";
 
+//INDEX
+// ! implement
+
+//NEW
+// ! implement
+
+//CREATE
+// ! implement
+
+//private USER_PARAMS
+
 const listUsers = async (req, res) => {
   const users = await User.find();
   //   res.render("users/index", { users });

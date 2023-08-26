@@ -15,6 +15,27 @@ import reportCom from "../middlewares/reportCom.js";
 
 const reportRoutes = Router();
 
+/*
+
+Reports Controller:
+
+GET /reports/get_time_to_start - Custom collection action
+GET /reports/get_time - Custom collection action
+POST /reports/set_boost - Custom collection action
+POST /reports/set_mission - Custom collection action
+GET /reports/:id/set_owner - Custom member action
+GET /reports/:id/get_owner - Custom member action
+GET /reports/:id/battery_level - Custom member action
+GET /reports/:id/under_capture - Custom member action
+GET /reports/:id/get_boost - Custom member action
+GET /reports/:id/get_time_to_start - Custom member action
+GET /reports/:id/submit_calibration_code - Custom member action
+GET /reports/:id/verify_calibration_code - Custom member action
+
+*/
+
+
+
 // Reports
 
 // SET OWNER

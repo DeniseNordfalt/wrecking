@@ -1,5 +1,14 @@
 import { getAction } from "../axios/apiController.js";
-//index
+
+//INDEX
+// ! implement
+
+//USER
+// ! implement
+
+//USERS
+// ! implement
+
 
 const getIndex = async () => {
 
@@ -82,6 +91,7 @@ const name = req.params.name;
 const response = await axios.get(`/users/${name}`);
 const user = response.data.user;
 console.log(user);
+res.json(user);
 }
 
 
@@ -109,6 +119,8 @@ const getUsers = async (req, res) => {
             return user.username
         })
         console.log('getusers', users3);
+
+        res.json(users3);
 
     } catch (error) {
       console.log(error);

@@ -1,6 +1,47 @@
 import Round from "../models/round.js";
 import Station from "../models/station.js";
 
+//BEFORE ACTION (SET ROUND) Round.find(params[id])
+//Before ^^^ only show, edit, update, destroy
+//AFTER ACTION (thirdgift_update_time) 
+/*
+ def thirdgift_update_time
+      Thirdgift.update_round_time
+
+    end
+*/
+//AFTER ^^^ only create, update, destroy
+// BEFORE ACTION authenticate_user
+
+//INDEX (GET /rounds & /rounds.json)
+// ! implement
+
+//SHOW (GET /rounds/:id & /rounds/:id.json)
+// ! implement
+
+//CREATE (POST /rounds & /rounds.json)
+// ! implement
+
+//NEW_OLD (GET /rounds/new & /rounds/new.json)
+// ! implement
+
+//EDIT (GET /rounds/:id/edit & /rounds/:id/edit.json)
+// ! implement
+
+//CREATE_OLD (POST /rounds & /rounds.json)
+// ! implement
+
+//UPDATE (PATCH/PUT /rounds/:id & /rounds/:id.json)
+// ! implement
+
+//DESTROY (DELETE /rounds/:id & /rounds/:id.json)
+// ! implement
+
+// private MASK_STATIONS ???
+// private SET_ROUND
+// private ROUND_PARAMS
+// private THIRDGIFT_UPDATE_TIME
+
 const getRounds = async (req, res) => {
   try {
     const rounds = await Round.find();

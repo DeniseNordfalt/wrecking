@@ -3,6 +3,42 @@ import Team from "../models/team.js";
 import Round from "../models/round.js";
 import mongoose from "mongoose";
 
+//INDEX
+// ! implement
+
+//SET OWNER
+// ! implement
+
+//GET OWNER
+// ! implement
+
+//UNDER CAPTURE
+// ! implement
+
+//GET TIME
+// ! implement
+
+//SET BOOST
+// ! implement
+
+//GET BOOST
+// ! implement
+
+//GET TIME TO START
+// ! implement
+
+//GET STATION TIME TO START
+// ! implement
+
+//VERIFY CALIBRATION CODE
+// ! implement
+
+//SUBMIT CALIBRATION CODE
+// ! implement
+
+//SET MISSION
+// ! implement
+
 const getOwner = async (req, res) => {
   try {
     const id = req.params.station;

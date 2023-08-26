@@ -2,6 +2,41 @@ import Station from "../models/station.js";
 import Team from "../models/team.js";
 import mongoose from "mongoose";
 
+//INDEX
+// ! implement
+
+//SHOW
+// ! implement
+
+//OWNERSHIP
+// ! implement
+
+//RESET
+// ! implement
+
+//REMAINING
+// ! implement
+
+//NEW
+// ! implement
+
+//EDIT
+// ! implement
+
+//CREATE
+// ! implement
+
+//UPDATE
+// ! implement
+
+//DESTROY
+// ! implement
+
+//private SET_STATION
+//private STATION_PARAMS
+
+
+
 const getStations = async (req, res) => {
   try {
     const stations = await Station.find().populate("team");

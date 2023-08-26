@@ -3,6 +3,16 @@ import User from "../models/user.js";
 
 const userRoutes = Router();
 
+/*
+
+Users Controller:
+
+GET /users - Index action (listing users)
+Other standard RESTful routes for users (e.g., show, edit, update, destroy)
+
+*/
+
+
 userRoutes.get("/", async (req, res) => {
   res.render("users/new.ejs", { user: new User() });
 });

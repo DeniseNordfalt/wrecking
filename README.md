@@ -112,11 +112,11 @@ Mostly the CSS and image files.
 ## Reports
 Handles the logic between the server and the stations.
 /reports
-/reports/:station/go (set owner)
-/reports/:station/so (get owner)
+/reports/:station/go (get owner)
+/reports/:station/so (set owner)
 /reports/:station/uc (under capture)
 /reports/:station/tts (time to start)
-/reports/:station/gb (game boost)
+/reports/:station/gb (get boost)
 
 ## Rounds
 /rounds

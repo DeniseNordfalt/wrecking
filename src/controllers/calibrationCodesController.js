@@ -1,5 +1,18 @@
 import CalibrationCode from "../models/calibrationCode.js";
 
+//INDEX
+// ! implement
+
+//ACTIVE 
+// ! implement
+
+//TOP LIST
+// ! implement
+
+//DESTROY
+// ! implement
+
+
 export const getCalibrationCodes = async (req, res) => {
     try {
         const calibrationCodes = await CalibrationCode.find();

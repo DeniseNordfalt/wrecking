@@ -23,6 +23,32 @@ const routes = Router();
 
 routes.use(methodOverride("_method"));
 
+/* 
+Application Controller:
+
+PUT /reset_all - Custom action for resetting all
+
+Public Controller:
+
+GET /public - Index action (root)
+GET /public/teams - Custom collection action for listing teams
+
+Sessions Controller:
+
+GET /login - New action (login form)
+POST /login - Create action (login)
+DELETE /logout - Destroy action (logout)
+Admin Controller:
+
+GET /index - Index action
+Root Route:
+
+Root URL (/) is mapped to public#index
+
+*/
+
+
+
 routes.get("/", async (req, res, next) => {
   try {
     const [stations, teams, [activeRound], comingRounds] = await Promise.all([
@@ -76,6 +102,6 @@ routes.use("/stations", authenticateUser, stationRoutes);
 routes.use("/teams", authenticateUser, teamRoutes);
 routes.use("/reports", reportRoutes);
 routes.use("/users", userRoutes);
-routes.use("/calibrationcodes", calibrationCodeRoutes);
+routes.use("/calibration_codes", calibrationCodeRoutes);
 
 export default routes;
