@@ -1,6 +1,6 @@
 import { Router } from "express";
 import Station from "../models/station.js";
-import CalibrationCode from "../models/calibrationCode.js";
+
 
 import {
   getOwner,
@@ -62,25 +62,22 @@ reportRoutes.put("/:station/boost", async (req, res) => {
   }
 });
 
-reportRoutes.get("/:station_id/scc", async (req, res) => {
- 
-});
 
 reportRoutes.get("/:station_id/vcc", async (req, res) => {
 
-const code = await CalibrationCode.findOne({
-  code: req.body.code,
-  station_id: req.body.station_id,
-  completed: false,
-}).exec();
+// const code = await CalibrationCode.findOne({
+//   code: req.body.code,
+//   station_id: req.body.station_id,
+//   completed: false,
+// }).exec();
 
-if (code) {
-  code.completed = true;
-  await code.save();
+// if (code) {
+//   code.completed = true;
+//   await code.save();
 
-} else {
-  //res.status(200).send("Ok:0");
-}
+// } else {
+//   //res.status(200).send("Ok:0");
+// }
 
 
 res.status(200).send("Ok:1");
