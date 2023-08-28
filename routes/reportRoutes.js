@@ -61,4 +61,13 @@ reportRoutes.put("/:station/boost", async (req, res) => {
   }
 });
 
+reportRoutes.get("/scc", async (req, res) => {
+ 
+});
+
+reportRoutes.get("/vcc", async (req, res) => {
+res.status(200).send("Ok:1");
+});
+
+
 export default reportRoutes;
