@@ -15,8 +15,18 @@ const stationRoutes = Router();
 // GET stations
 stationRoutes.get("/", getStations);
 
+
 //GET stations/:id
 stationRoutes.get("/:id", getStationById);
+
+// PUT stations/:id/reset
+stationRoutes.put("/:id/reset", resetStation);
+
+
+
+
+
+
 
 //POST stations
 stationRoutes.post("/", createStation);
@@ -33,7 +43,6 @@ stationRoutes.delete("/:id", deleteStation);
 // GET stations/:id/edit
 stationRoutes.get("/:id/edit", editStation);
 
-// PUT stations/:id/reset
-stationRoutes.put("/:id/reset", resetStation);
+
 
 export default stationRoutes;
