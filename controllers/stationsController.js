@@ -188,15 +188,41 @@ const editStation = async (req, res) => {
 const resetStation = async (req, res) => {
   const id = req.params.id;
   let station;
+  let team;
 
   if (parseInt(id) >= 1 && parseInt(id) <= 4) {
     station = await Station.findOne({ bit_id: id });
-    res.send(station);
+    team = await Team.findOne({ _id: station.team });
+
+    station.team  = null
+    station.owner = 0;
+    station.boost = 100;
+    await station.save();
+
+    if(team){
+
+      await team.stations.pull(station._id);
+      await team.save();
+    }
+
+    res.send({station, team});
   }
 
   if (mongoose.isValidObjectId(id)) {
     station = await Station.findById(id);
-    res.send(station);
+    team = await Team.findOne({ _id: station.team });
+
+    if (team){
+      await team.stations.pull(station._id);
+      await team.save();
+    }
+
+    station.team  = null;
+    station.owner = 0;
+    station.boost = 100;
+    await station.save();
+    
+    res.send({station, team});
   }
   if (!station) {
     res.status(404).send("Station not found");
