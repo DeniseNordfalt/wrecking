@@ -6,12 +6,11 @@ import Round from "../models/round.js";
 
 import stationRoutes from "./stationRoutes.js";
 import teamRoutes from "./teamRoutes.js";
-
 import reportRoutes from "./reportRoutes.js";
-
 import roundRoutes from "./roundRoutes.js";
 import adminRoutes from "./adminRoutes.js";
 import userRoutes from "./userRoutes.js";
+import calibrationCodeRoutes from "./calibrationCodeRoutes.js";
 
 import authenticateUser from "../middlewares/authenticateUser.js";
 
@@ -74,5 +73,6 @@ routes.use("/stations", authenticateUser, stationRoutes);
 routes.use("/teams", authenticateUser, teamRoutes);
 routes.use("/reports", reportRoutes);
 routes.use("/users", userRoutes);
+routes.use("/calibration_codes", calibrationCodeRoutes);
 
 export default routes;
