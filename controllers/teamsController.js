@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Team from "../models/team.js";
 
 const getTeamList = async (req, res) => {
@@ -117,12 +118,23 @@ const getTeamEdit = async (req, res) => {
 
 const resetTeam = async (req, res) => {
   const id = req.params.id;
+  let team;
   try {
-    const team = await Team.findById(id);
+
+    if (parseInt(id) >= 1 && parseInt(id) <= 4) {
+      team = await Team.findOne({team_id: id}) 
+    }
+    else if(mongoose.isValidObjectId(id)){
+      team = await Team.findById(id);
+
+    }
+
     if (!team) {
       return res.status(404).send("Team not found");
     }
     team.score = 0;
+    team.captured_stations = [];
+    team.stations = [];
     await team.save();
     res.format({
       "text/html": () => {
