@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Station from "../models/station.js";
+import CalibrationCode from "../models/calibrationCode.js";
 
 
 import {
@@ -82,6 +83,65 @@ reportRoutes.get("/:station_id/vcc", async (req, res) => {
 
 res.status(200).send("Ok:1");
 });
+
+
+//thirdgift routes
+
+//set_boost
+reportRoutes.post('/set_boost', verifyPasskey, async (req, res) => {
+  // ! double check all of this
+  try {
+   let {station, boost} = req.body.data;
+   console. log(station, boost);
+
+  station = await Station.findOne( { bit_id: station } );
+  console.log('station', station)
+
+   if (!station) {
+     return res.status(404).send("station not found\n");
+   }
+   if (boost >= 50 && boost <= 200 && station.boost !== boost) {
+     station.boost = boost;
+     await station.save();
+     res.sendStatus(202);
+  } else {
+     res.sendStatus(400);
+   }
+
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+//set_mission
+reportRoutes.post('/set_mission', verifyPasskey, async (req, res) => {
+  try {
+   const mission = req.body.data.mission;
+
+   if (mission && typeof mission === 'object') {
+    await CalibrationCode.disableOld(mission.owner);
+
+    const newCode = new CalibrationCode({
+      station_id: mission.stationId,
+      owner: mission.owner,
+      code: mission.code,
+      completed: mission.completed || false,
+    });
+
+    await newCode.save();
+
+    res.json({status: 'ok'});
+  } else {
+    res.status(422).json({status: 'error'});
+  }
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+
 
 
 export default reportRoutes;
