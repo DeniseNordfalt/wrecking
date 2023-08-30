@@ -16,11 +16,16 @@ const roundRoutes = Router();
 // GET /rounds
 roundRoutes.get("/", getRounds);
 
-//GET /rounds/:id/
-roundRoutes.get("/:id", getRoundById);
-
 //POST /rounds
 roundRoutes.post("/", createRound);
+
+//GET /rounds/new
+roundRoutes.get("/new", async (req, res) => {
+  res.send("rounds new");
+});
+
+//GET /rounds/:id/
+roundRoutes.get("/:id", getRoundById);
 
 //PUT /rounds/:id
 roundRoutes.put("/:id", updateRound);
@@ -30,13 +35,6 @@ roundRoutes.patch("/:id", updateRound);
 
 //DELETE /rounds/:id
 roundRoutes.delete("/:id", deleteRound);
-
-////////////////////////////////////////////
-
-//GET /rounds/new
-roundRoutes.get("/new", async (req, res) => {
-  res.send("rounds new");
-});
 
 //GET /rounds/:id/edit
 roundRoutes.get("/:id/edit", async (req, res) => {
