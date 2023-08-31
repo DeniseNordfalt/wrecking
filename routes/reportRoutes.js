@@ -20,18 +20,47 @@ const reportRoutes = Router();
 
 // SET STATION OWNER
 reportRoutes.get("/:station/so", verifyPasskey, reportCom, setOwner);
-
-// GET STATION BOOST
-reportRoutes.get("/:station/gb", reportCom, getBoost);
+reportRoutes.get("/:station/set_owner", verifyPasskey, reportCom, setOwner);
 
 // GET OWNER
 reportRoutes.get("/:station/go", reportCom, getOwner);
+reportRoutes.get("/:station/get_owner", reportCom, getOwner);
 
-// GET TIME TO START
-reportRoutes.get("/:station/tts", reportCom, getTimeToStart);
+//! /:station/battery_level & /:station/bl
 
 // UNDER CAPTURE
 reportRoutes.get("/:station/uc", reportCom, underCapture);
+reportRoutes.get("/:station/under_capture", reportCom, underCapture);
+
+// GET STATION BOOST
+reportRoutes.get("/:station/gb", reportCom, getBoost);
+reportRoutes.get("/:station/get_boost", reportCom, getBoost);
+
+// GET TIME TO START
+reportRoutes.get("/:station/tts", reportCom, getTimeToStart);
+reportRoutes.get("/:station/get_time_to_start", reportCom, getTimeToStart);
+
+
+reportRoutes.get("/:station_id/vcc", async (req, res) => {
+
+  // const code = await CalibrationCode.findOne({
+  //   code: req.body.code,
+  //   station_id: req.body.station_id,
+  //   completed: false,
+  // }).exec();
+  
+  // if (code) {
+  //   code.completed = true;
+  //   await code.save();
+  
+  // } else {
+  //   //res.status(200).send("Ok:0");
+  // }
+  
+  
+  res.status(200).send("Ok:1");
+  });
+
 
 /////////////////////////////////////////////////////////////
 
@@ -64,25 +93,7 @@ reportRoutes.put("/:station/boost", async (req, res) => {
 });
 
 
-reportRoutes.get("/:station_id/vcc", async (req, res) => {
 
-// const code = await CalibrationCode.findOne({
-//   code: req.body.code,
-//   station_id: req.body.station_id,
-//   completed: false,
-// }).exec();
-
-// if (code) {
-//   code.completed = true;
-//   await code.save();
-
-// } else {
-//   //res.status(200).send("Ok:0");
-// }
-
-
-res.status(200).send("Ok:1");
-});
 
 
 //thirdgift routes
