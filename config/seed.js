@@ -10,10 +10,10 @@ export const seed = async () => {
   ];
 
   const teams = [
-    { name: "The Cluster", shortName: "CLU", colour: "A020F0", team_id: 1 },
-    { name: "Jofa Family", shortName: "NHL", colour: "90EE90", team_id: 2 },
-    { name: "SnapphaneKlan", shortName: "SHK", colour: "FF0000", team_id: 3 },
-    { name: "403", shortName: "403", colour: "0000FF", team_id: 4 },
+    { name: "TEAM RED", shortName: "RED", colour: "FF0000", team_id: 1 },
+    { name: "TEAM GREEN", shortName: "GRN", colour: "00FF00", team_id: 2 },
+    { name: "TEAM YELLOW", shortName: "YEL", colour: "FFFF00", team_id: 3 },
+    // { name: "NULL", shortName: "NUL", colour: "000000", team_id: 4 },
   ];
 
   const stationPromises = stations.map(async (station) => {
