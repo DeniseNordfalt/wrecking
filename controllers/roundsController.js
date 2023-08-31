@@ -1,5 +1,6 @@
 import Round from "../models/round.js";
 import Station from "../models/station.js";
+import { utcLocalDate } from "../helpers/date.js";
 
 const getRounds = async (req, res) => {
   try {
@@ -46,11 +47,14 @@ const getRoundById = async (req, res) => {
 };
 
 const createRound = async (req, res) => {
-  const { starttime, endtime, name } = req.body;
+  let { starttime, endtime, name } = req.body;
+  console.log(req.body);
   try {
     const round = new Round({
-      starttime: starttime,
-      endtime: endtime,
+      starttime: utcLocalDate(starttime),
+      endtime: utcLocalDate(endtime),
+      // starttime: starttime,
+      // endtime: endtime,
       name: name,
     });
 
@@ -71,10 +75,10 @@ const updateRound = async (req, res) => {
       round.name = name;
     }
     if (starttime) {
-      round.starttime = starttime;
+      round.starttime = utcLocalDate(starttime);
     }
     if (endtime) {
-      round.endtime = endtime;
+      round.endtime = utcLocalDate(endtime);
     }
     await round.save();
     res.format({
