@@ -132,26 +132,20 @@ const setOwner = async (req, res) => {
       return;
     }
 
-    //set owner as null if 0
-    if (owner === "0") {
-      owner = null;
-    }
-    else{
-      owner = parseInt(owner);
-    }
-
-    // console.log('owner', owner);
     
-    // res.status(202).send(`Ok`);
 
 
-  
-    if (owner) {
+    console.log('OWNER', owner)
+    //if owner is not null
+    if (owner !== '0' && owner !== 0 && owner !== null && owner !== 'null') {
       const team = await Team.findOne({ team_id: owner });
       const allTeams = await Team.find({});
 
       for (const team of allTeams) {
-        await team.remove_station(station);
+        console.log('team', team)
+        // await team.remove_station(station);
+        //await this.updateOne({$pull: {stations: station._id, captured_stations: station.bit_id}});
+        await team.updateOne({$pull: {stations: station._id, captured_stations: station.bit_id}});
       }
 
       station.team = team._id;
@@ -166,6 +160,13 @@ const setOwner = async (req, res) => {
 
       res.status(202).send(`Ok`);
     } else {
+      const allTeams = await Team.find({});
+      for (const team of allTeams) {
+        console.log('team', team)
+        // await team.remove_station(station);
+        //await this.updateOne({$pull: {stations: station._id, captured_stations: station.bit_id}});
+        await team.updateOne({$pull: {stations: station._id, captured_stations: station.bit_id}});
+      }
       station.team = null;
       station.under_capture = false;
       station.owner = null;
