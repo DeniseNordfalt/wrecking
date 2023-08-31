@@ -1,6 +1,9 @@
 import Round from "./models/round.js";
 import Team from "./models/team.js";
 
+import { utcLocalDate } from "./helpers/date.js";
+
+
 async function playGameRound() {
   console.log("Let's play a game");
   const interval = 1000; // 1 second
@@ -42,13 +45,17 @@ async function watchGameRound() {
   const interval = 10000; // 10 seconds
   const game = true;
   while (game) {
-    const now = new Date();
+    // const now = new Date();
+    const now = utcLocalDate();
+    console.log("now", now)
+  //  console.log('utc', utcLocalDate(now))
 
     //finds the round that is active
     const round = await Round.findOne({
       starttime: { $lte: now },
       endtime: { $gte: now },
     });
+    console.log("round", round)
 
     if (round) {
       await round.updateOne({ active: true });
