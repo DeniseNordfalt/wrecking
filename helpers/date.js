@@ -20,5 +20,21 @@ export const formatDate = (date) => {
   return new Intl.DateTimeFormat("sv-SE", options).format(date);
 };
 
-const date = Date.now();
-console.log("format date", formatDate(date));
+export const utcLocalDate = (date) => {
+  let currentTimeUTC;
+  if (!date) {
+    // Get the current time in UTC
+    currentTimeUTC = new Date();
+  } else {
+
+    currentTimeUTC = new Date(date);
+  }
+  // Add 2 hours to the current time to get UTC+2
+  console.log("UTC: ", currentTimeUTC);
+  const currentTimeUTCPlus2 = new Date(
+    currentTimeUTC.getTime() + 2 * 60 * 60 * 1000
+  );
+
+  console.log("UTC+2: ", currentTimeUTCPlus2);
+  return currentTimeUTCPlus2;
+};
