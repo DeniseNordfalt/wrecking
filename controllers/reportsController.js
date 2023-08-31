@@ -36,6 +36,72 @@ const getOwner = async (req, res) => {
   }
 };
 
+// const setOwner = async (req, res) => {
+//   try {
+//     const id = req.params.station;
+//     let station;
+//     //let key = req.query.key;
+//     let owner = req.query.owner;
+
+//     //DEBUG TO  HANDLE ; IN KEY
+//     //TODO: REMOVE ; in querystring in arduino
+//     const inputString = req.query.key;
+//     const pairs = inputString.split(";");
+//     //key = pairs[0];
+//     const ownerPair = pairs[1].split("=");
+//     const checkNumber = parseInt(ownerPair[1]);
+//     if (isNaN(checkNumber) === false && checkNumber >= 1 && checkNumber <= 4) {
+//       owner = ownerPair[1];
+//     } else {
+//       res.status(400).send("Bad request");
+//       return;
+//     }
+//     //DEBUG ENDS HERE
+
+//     //find the right station
+//     if (parseInt(id) >= 1 && parseInt(id) <= 4) {
+//       station = await Station.findOne({ bit_id: id });
+//     } else {
+//       res.status(404).send("Station not found");
+//       return;
+//     }
+//     console.log(station);
+
+//     if (owner) {
+//       const team = await Team.findOne({ team_id: owner });
+//       const allTeams = await Team.find({});
+
+//       console.log('OWNER', owner);
+
+//       for (const team of allTeams) {
+//         await team.remove_station(station);
+//       }
+
+//       station.team = team._id;
+//       station.under_capture = false;
+//       station.owner = owner;
+
+//       await station.save();
+
+//       team.stations.push(station._id);
+//       await team.check_capture_bonus(station.bit_id);
+//       await team.save();
+
+//       res.status(202).send(`Ok`);
+//     } else {
+//       station.team = null;
+//       station.under_capture = false;
+//       station.owner = null;
+//       await station.save();
+
+//       res.status(202).send(`Ok`);
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Server error");
+//   }
+// };
+
 const setOwner = async (req, res) => {
   try {
     const id = req.params.station;
@@ -50,7 +116,7 @@ const setOwner = async (req, res) => {
     //key = pairs[0];
     const ownerPair = pairs[1].split("=");
     const checkNumber = parseInt(ownerPair[1]);
-    if (isNaN(checkNumber) === false && checkNumber >= 1 && checkNumber <= 4) {
+    if (isNaN(checkNumber) === false && checkNumber >= 0 && checkNumber <= 4) {
       owner = ownerPair[1];
     } else {
       res.status(400).send("Bad request");
@@ -66,11 +132,23 @@ const setOwner = async (req, res) => {
       return;
     }
 
+    //set owner as null if 0
+    if (owner === "0") {
+      owner = null;
+    }
+    else{
+      owner = parseInt(owner);
+    }
+
+    // console.log('owner', owner);
+    
+    // res.status(202).send(`Ok`);
+
+
+  
     if (owner) {
       const team = await Team.findOne({ team_id: owner });
       const allTeams = await Team.find({});
-
-      console.log(station);
 
       for (const team of allTeams) {
         await team.remove_station(station);
@@ -82,7 +160,7 @@ const setOwner = async (req, res) => {
 
       await station.save();
 
-      team.stations.push(station._id);
+       team.stations.push(station._id);
       await team.check_capture_bonus(station.bit_id);
       await team.save();
 
@@ -95,6 +173,7 @@ const setOwner = async (req, res) => {
 
       res.status(202).send(`Ok`);
     }
+  
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
