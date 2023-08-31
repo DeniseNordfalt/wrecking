@@ -34,6 +34,9 @@ teamSchema.methods.remove_station = async function (station) {
   // this.stations.pull(station._id);
   // this.captured_stations.pull(station.bit_id);
   // await this.save();
+  console.log('removing station', station);
+  console.log('station._id', station._id);
+  console.log('station.bit_id', station.bit_id);
   await this.updateOne({$pull: {stations: station._id, captured_stations: station.bit_id}});
   }
   catch(err){
